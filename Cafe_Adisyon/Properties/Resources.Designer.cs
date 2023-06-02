@@ -93,6 +93,16 @@ namespace Cafe_Adisyon.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap türünde yerelleştirilmiş bir kaynak arar.
         /// </summary>
+        internal static System.Drawing.Bitmap buttonClose {
+            get {
+                object obj = ResourceManager.GetObject("buttonClose", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap türünde yerelleştirilmiş bir kaynak arar.
+        /// </summary>
         internal static System.Drawing.Bitmap ButtonMenuEkle {
             get {
                 object obj = ResourceManager.GetObject("ButtonMenuEkle", resourceCulture);
@@ -163,39 +173,9 @@ namespace Cafe_Adisyon.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap türünde yerelleştirilmiş bir kaynak arar.
         /// </summary>
-        internal static System.Drawing.Bitmap closeButton {
-            get {
-                object obj = ResourceManager.GetObject("closeButton", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   System.Drawing.Bitmap türünde yerelleştirilmiş bir kaynak arar.
-        /// </summary>
         internal static System.Drawing.Bitmap closeButton1 {
             get {
                 object obj = ResourceManager.GetObject("closeButton1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   System.Drawing.Bitmap türünde yerelleştirilmiş bir kaynak arar.
-        /// </summary>
-        internal static System.Drawing.Bitmap closeButton11 {
-            get {
-                object obj = ResourceManager.GetObject("closeButton11", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   System.Drawing.Bitmap türünde yerelleştirilmiş bir kaynak arar.
-        /// </summary>
-        internal static System.Drawing.Bitmap closeButton12 {
-            get {
-                object obj = ResourceManager.GetObject("closeButton12", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -426,6 +406,16 @@ namespace Cafe_Adisyon.Properties {
         internal static System.Drawing.Bitmap RoundedRectangle {
             get {
                 object obj = ResourceManager.GetObject("RoundedRectangle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap türünde yerelleştirilmiş bir kaynak arar.
+        /// </summary>
+        internal static System.Drawing.Bitmap SiparisEklemeFoto {
+            get {
+                object obj = ResourceManager.GetObject("SiparisEklemeFoto", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

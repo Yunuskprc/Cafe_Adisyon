@@ -19,7 +19,14 @@ namespace Cafe_Adisyon
         }
 
         // saat labeli güncellendikten sonra button rengi gidiyor ??.
-        // masalara tıklandıktan sonra asipariş paneli açılıyor o esna da başka masaya tıklayınca lblMAsaAd nesnesinin adı değişmiyor bunu bulalım.
+        // siparis eklendikten sonra o masanın doluluk değerini 1 yapacaz fiyat değerini hem db hem de lbl da gösterecez. yapıldı
+        // hata 1 alınıyor button rengini değiştiremiyoruz.
+
+        // to do -> masa rengi sorununu çözümü
+        // to do -> siparis ekleme sayfası kapatıldıktan sonra sol sekmedeki masa bilgileri ve siparis bilgilerini gösterecek metot.
+        // to do -> sol alt ekranda ödeme işlemleri
+        // to do -> fiş yazdırma
+        // to do -> masa ekleme çıkarma
 
         SqlConnection conn = new SqlConnection("Server=localhost\\SQLEXPRESS;Database=Cafe_Adisyon;Trusted_Connection=True;");
         DateTime dt;
@@ -191,19 +198,21 @@ namespace Cafe_Adisyon
 
 
         // global tanımlanma sebebi dinamik yapıda nesneler üretilemediği için diğer metotlarda kullanamıyoruz. Kullanamabilmek için global tanımlandı.
+        Panel pnlSiparis = new Panel();
         ComboBox cmbBxSiparisKategori = new ComboBox();
         ComboBox cmbBxSiparisUrun = new ComboBox();
         ComboBox cmbBxSiparisCarpan = new ComboBox();
         Label lblSiparisFiyat = new Label();
         Label lblMasaAd = new Label();
+        Label lblSiparisEkleDurum = new Label(); // siparis eklendiğinde visiable true olacak.
+        
 
         private void buttonCode(object sender, EventArgs e)
         {
             Button btn = sender as Button;
-            Panel pnlSiparis = new Panel();
+            pnlSiparis.Visible = true;
             pnlMain.Controls.Add(pnlSiparis);
 
-            MessageBox.Show(btn.Text);
 
             pnlSiparis.Size = new Size(600, 400);
             pnlSiparis.Location = new Point(300, 275);
@@ -300,6 +309,7 @@ namespace Cafe_Adisyon
             cmbBxSiparisCarpan.TabIndex = 8;
             cmbBxSiparisCarpan.SelectedIndexChanged += cmbBxSiparisCarpan_SelectedIndexChanged;
             //
+            // Buttonlar
             //
             Button btnSiparisTemizle = new Button();
             pnlSiparis.Controls.Add(btnSiparisTemizle);
@@ -325,7 +335,19 @@ namespace Cafe_Adisyon
             btnSiparisEkle.Text = "Ekle";
             btnSiparisEkle.UseVisualStyleBackColor = false;
             btnSiparisEkle.Click += btnSiparisEkle_Click;
-
+            //
+            //
+            Button btnSiparisEkleClose = new Button();
+            pnlSiparis.Controls.Add(btnSiparisEkleClose);
+            btnSiparisEkleClose.BackgroundImage = Properties.Resources.buttonClose;
+            btnSiparisEkleClose.FlatAppearance.BorderSize = 0;
+            btnSiparisEkleClose.FlatStyle = FlatStyle.Flat;
+            btnSiparisEkleClose.Location = new Point(563, 8);
+            btnSiparisEkleClose.Size = new Size(20, 20);
+            btnSiparisEkleClose.TabIndex = 15;
+            btnSiparisEkleClose.UseVisualStyleBackColor = true;
+            btnSiparisEkleClose.Click += btnSiparisEkleClose_Click;
+            //
             lblSiparisFiyat = new Label();
             pnlSiparis.Controls.Add(lblSiparisFiyat);
             lblSiparisFiyat.AutoSize = true;
@@ -333,6 +355,27 @@ namespace Cafe_Adisyon
             lblSiparisFiyat.Location = new Point(178, 202);
             lblSiparisFiyat.Size = new Size(0, 25);
             lblSiparisFiyat.TabIndex = 12;
+            //
+            //
+            pnlSiparis.Controls.Add(lblSiparisEkleDurum);
+            lblSiparisEkleDurum.AutoSize = true;
+            lblSiparisEkleDurum.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            lblSiparisEkleDurum.Location = new Point(415, 317);
+            lblSiparisEkleDurum.Size = new Size(111, 21);
+            lblSiparisEkleDurum.TabIndex = 16;
+            lblSiparisEkleDurum.Text = "Sipariş Eklendi";
+            lblSiparisEkleDurum.Visible = false;
+            //
+            //
+            PictureBox pictureBox1 = new PictureBox();
+            pnlSiparis.Controls.Add(pictureBox1);
+            pictureBox1.Image = Properties.Resources.SiparisEklemeFoto;
+            pictureBox1.Location = new Point(392, 106);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(150, 150);
+            pictureBox1.TabIndex = 14;
+            pictureBox1.TabStop = false;
+            //
 
         }
 
@@ -391,7 +434,11 @@ namespace Cafe_Adisyon
             lblSiparisFiyat.Text = (s1*urunFiyat).ToString();
         }
 
-
+        /// <summary>
+        /// Siparis ekleme panelindeki tüm verileri temizler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSiparisTemizle_Click(object sender, EventArgs e)
         {
             Button btn = sender as Button;
@@ -400,12 +447,19 @@ namespace Cafe_Adisyon
             cmbBxSiparisCarpan.Text = "";
             lblSiparisFiyat.Text = "";
         }
-
+        
+        /// <summary>
+        /// Siparis ekleme panelinde seçili yemeği ilgili tablolara ekler ve masayı dolu gösterir. Toplam dk ve fiyat labellerda gözükür.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSiparisEkle_Click(object sender, EventArgs e)
         {
             Button button = sender as Button;
             int kategoriId = 0;
-            if(cmbBxSiparisUrun.Text != " " && cmbBxSiparisKategori.Text != " " && cmbBxSiparisCarpan.Text != " ")
+            string deger = "";
+            int toplamfiyat = 0;
+            if (cmbBxSiparisUrun.Text != " " && cmbBxSiparisKategori.Text != " " && cmbBxSiparisCarpan.Text != " ")
             {
                 conn.Open();
                 // kategoriId değişkenine ulaştık.
@@ -421,14 +475,48 @@ namespace Cafe_Adisyon
                 cmd = new SqlCommand("insert into " + lblMasaAd.Text + "(kategoriId,isim,fiyat,siparisSayisi) values (" + kategoriId + ",'" + cmbBxSiparisUrun.Text + "'," + urunFiyat + "," + Int16.Parse(cmbBxSiparisCarpan.Text) +")", conn);
                 cmd.ExecuteNonQuery();
 
+                // Masa tablosuna eklendi
 
-                conn.Close();
                 
+                 deger = lblMasaAd.Text.Substring(4);
+                
+                
+                // MASALAR tablosunda güncellemeler yapıldı
+                cmd = new SqlCommand("SELECT *FROM MASALAR WHERE masaId="+deger,conn);
+                dr = cmd.ExecuteReader();
+                if(dr.Read())
+                {
+                    toplamfiyat = Int16.Parse(dr["fiyat"].ToString()) ;
+                }
+                toplamfiyat += urunFiyat * Int16.Parse(cmbBxSiparisCarpan.Text);
+                dr.Close();
+                cmd = new SqlCommand("update MASALAR set masaDoluluk=1, fiyat="+toplamfiyat.ToString()+" WHERE masaId="+deger,conn);
+                cmd.ExecuteNonQuery();
+
+
+
+
+                lblSiparisEkleDurum.Visible = true;
+                conn.Close();
             }
             else
             {
                 MessageBox.Show("Tüm alanları doldurun!");
             }
         }
+    
+        /// <summary>
+        /// Siparis ekleme panelini kapatır.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnSiparisEkleClose_Click(object sender, EventArgs e)
+        {
+            pnlSiparis.Controls.Clear();
+            pnlSiparis.Visible = false;
+            lblSiparisEkleDurum.Visible=false;
+        }
+    
+    
     }
 }
