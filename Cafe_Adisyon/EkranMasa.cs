@@ -19,11 +19,15 @@ namespace Cafe_Adisyon
         }
 
         // saat labeli güncellendikten sonra button rengi gidiyor ??.
-        // siparis ekleme menüsünde fiyat label ına değer atayamıyoruz.
-
+        // masalara tıklandıktan sonra asipariş paneli açılıyor o esna da başka masaya tıklayınca lblMAsaAd nesnesinin adı değişmiyor bunu bulalım.
 
         SqlConnection conn = new SqlConnection("Server=localhost\\SQLEXPRESS;Database=Cafe_Adisyon;Trusted_Connection=True;");
         DateTime dt;
+
+        /// <summary>
+        /// Ürünün fiyat değişkenini tutar ve daha sağlıklı hesap yapmayı sağlar.
+        /// </summary>
+        int urunFiyat = 0;
 
         private void EkranMasa_Load(object sender, EventArgs e)
         {
@@ -189,8 +193,9 @@ namespace Cafe_Adisyon
         // global tanımlanma sebebi dinamik yapıda nesneler üretilemediği için diğer metotlarda kullanamıyoruz. Kullanamabilmek için global tanımlandı.
         ComboBox cmbBxSiparisKategori = new ComboBox();
         ComboBox cmbBxSiparisUrun = new ComboBox();
+        ComboBox cmbBxSiparisCarpan = new ComboBox();
         Label lblSiparisFiyat = new Label();
-
+        Label lblMasaAd = new Label();
 
         private void buttonCode(object sender, EventArgs e)
         {
@@ -198,12 +203,14 @@ namespace Cafe_Adisyon
             Panel pnlSiparis = new Panel();
             pnlMain.Controls.Add(pnlSiparis);
 
+            MessageBox.Show(btn.Text);
+
             pnlSiparis.Size = new Size(600, 400);
             pnlSiparis.Location = new Point(300, 275);
             pnlSiparis.BackColor = System.Drawing.Color.FromArgb(226, 226, 226);
             //
             //
-            Label lblMasaAd = new Label();
+            lblMasaAd = new Label();
             pnlSiparis.Controls.Add(lblMasaAd);
             lblMasaAd.AutoSize = true;
             lblMasaAd.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold, GraphicsUnit.Point);
@@ -255,8 +262,7 @@ namespace Cafe_Adisyon
             //
             //combobox kdoları
             //
-
-            
+            cmbBxSiparisKategori = new ComboBox();
             pnlSiparis.Controls.Add(cmbBxSiparisKategori);
             cmbBxSiparisKategori.FormattingEnabled = true;
             cmbBxSiparisKategori.Items.Clear();
@@ -276,6 +282,7 @@ namespace Cafe_Adisyon
             cmbBxSiparisKategori.SelectedIndexChanged += cmbBxSiparisKategori_SelectedIndexChanged;
             //
             //
+            cmbBxSiparisUrun = new ComboBox();
             pnlSiparis.Controls.Add(cmbBxSiparisUrun);
             cmbBxSiparisUrun.FormattingEnabled = true;
             cmbBxSiparisUrun.Location = new Point(178, 128);
@@ -284,23 +291,60 @@ namespace Cafe_Adisyon
             cmbBxSiparisUrun.SelectedIndexChanged += cmbBxSiparisUrun_SelectedIndexChanged;
             //
             //
-            ComboBox cmbBxSiparisCarpan = new ComboBox();
+            cmbBxSiparisCarpan = new ComboBox();
             pnlSiparis.Controls.Add(cmbBxSiparisCarpan);
             cmbBxSiparisCarpan.FormattingEnabled = true;
             cmbBxSiparisCarpan.Items.AddRange(new object[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" });
             cmbBxSiparisCarpan.Location = new Point(178, 164);
             cmbBxSiparisCarpan.Size = new Size(124, 23);
             cmbBxSiparisCarpan.TabIndex = 8;
+            cmbBxSiparisCarpan.SelectedIndexChanged += cmbBxSiparisCarpan_SelectedIndexChanged;
             //
             //
+            Button btnSiparisTemizle = new Button();
+            pnlSiparis.Controls.Add(btnSiparisTemizle);
+            btnSiparisTemizle.BackColor = Color.FromArgb(245, 171, 47);
+            btnSiparisTemizle.FlatAppearance.BorderSize = 0;
+            btnSiparisTemizle.FlatStyle = FlatStyle.Flat;
+            btnSiparisTemizle.Location = new Point(91, 313);
+            btnSiparisTemizle.Size = new Size(87, 32);
+            btnSiparisTemizle.TabIndex = 11;
+            btnSiparisTemizle.UseVisualStyleBackColor = false;
+            btnSiparisTemizle.Text = "Temizle";
+            btnSiparisTemizle.Click += btnSiparisTemizle_Click;
+            //
+            //
+            Button btnSiparisEkle = new Button();
+            pnlSiparis.Controls.Add(btnSiparisEkle);
+            btnSiparisEkle.BackColor = Color.FromArgb(245, 171, 47);
+            btnSiparisEkle.FlatAppearance.BorderSize = 0;
+            btnSiparisEkle.FlatStyle = FlatStyle.Flat;
+            btnSiparisEkle.Location = new Point(215, 313);
+            btnSiparisEkle.Size = new Size(87, 32);
+            btnSiparisEkle.TabIndex = 4;
+            btnSiparisEkle.Text = "Ekle";
+            btnSiparisEkle.UseVisualStyleBackColor = false;
+            btnSiparisEkle.Click += btnSiparisEkle_Click;
+
+            lblSiparisFiyat = new Label();
             pnlSiparis.Controls.Add(lblSiparisFiyat);
             lblSiparisFiyat.AutoSize = true;
             lblSiparisFiyat.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
             lblSiparisFiyat.Location = new Point(178, 202);
             lblSiparisFiyat.Size = new Size(0, 25);
             lblSiparisFiyat.TabIndex = 12;
+
         }
 
+
+
+
+
+        /// <summary>
+        /// Sipariş verme panelinde ki comboBoxların methodudur.Kategoriye göre ürünleri diğer combobox a taşır.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmbBxSiparisKategori_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox cmbBx = sender as ComboBox;
@@ -315,17 +359,76 @@ namespace Cafe_Adisyon
             conn.Close();
         }
 
+        /// <summary>
+        /// Sipariş verme panelindeki comboBoxların methodudur.Ürün seçimine göre ürünün fiyat değerini urunFiyat değişkenine atar.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmbBxSiparisUrun_SelectedIndexChanged(object sender,EventArgs e)
         {
             ComboBox cmbBx = sender as ComboBox;
-            SqlCommand cmd  = new SqlCommand("SELECT *FROM " + cmbBxSiparisKategori.Text + " WHERE isim='" + cmbBxSiparisUrun.Text+"'",conn);
+            SqlCommand cmd  = new SqlCommand("SELECT *FROM " + cmbBxSiparisKategori.Text + " WHERE isim='" + cmbBxSiparisUrun.Text + "'",conn);
             conn.Open();
             SqlDataReader dr = cmd.ExecuteReader();
             if (dr.Read())
             {
-                lblSiparisFiyat.Text = dr["fiyat"].ToString();
+                urunFiyat = Int16.Parse(dr["fiyat"].ToString());
             }
             conn.Close();
+            lblSiparisFiyat.Text = urunFiyat.ToString();
+        }
+
+        /// <summary>
+        /// Sipariş verme panelindeki ComboBoxların methodudur.Çarpan sayısına göre toplam fiyatı label da saklar.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cmbBxSiparisCarpan_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox cmbBx = sender as ComboBox;
+            int s1 = Int16.Parse(cmbBx.Text);
+
+            lblSiparisFiyat.Text = (s1*urunFiyat).ToString();
+        }
+
+
+        private void btnSiparisTemizle_Click(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            cmbBxSiparisKategori.Text = "";
+            cmbBxSiparisUrun.Text = "";
+            cmbBxSiparisCarpan.Text = "";
+            lblSiparisFiyat.Text = "";
+        }
+
+        private void btnSiparisEkle_Click(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+            int kategoriId = 0;
+            if(cmbBxSiparisUrun.Text != " " && cmbBxSiparisKategori.Text != " " && cmbBxSiparisCarpan.Text != " ")
+            {
+                conn.Open();
+                // kategoriId değişkenine ulaştık.
+                SqlCommand cmd = new SqlCommand("SELECT *FROM MENULER WHERE isim='" + cmbBxSiparisKategori.Text + "'", conn);
+                SqlDataReader dr = cmd.ExecuteReader();
+                if(dr.Read())
+                {
+                    kategoriId = Int16.Parse(dr["kategoriId"].ToString());
+                }
+
+                cmd.Dispose();dr.Close();
+
+                cmd = new SqlCommand("insert into " + lblMasaAd.Text + "(kategoriId,isim,fiyat,siparisSayisi) values (" + kategoriId + ",'" + cmbBxSiparisUrun.Text + "'," + urunFiyat + "," + Int16.Parse(cmbBxSiparisCarpan.Text) +")", conn);
+                cmd.ExecuteNonQuery();
+
+
+                conn.Close();
+                
+            }
+            else
+            {
+                MessageBox.Show("Tüm alanları doldurun!");
+            }
         }
     }
 }

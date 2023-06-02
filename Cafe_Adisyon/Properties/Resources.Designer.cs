@@ -433,16 +433,6 @@ namespace Cafe_Adisyon.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap türünde yerelleştirilmiş bir kaynak arar.
         /// </summary>
-        internal static System.Drawing.Bitmap SiparisEklemeFoto {
-            get {
-                object obj = ResourceManager.GetObject("SiparisEklemeFoto", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   System.Drawing.Bitmap türünde yerelleştirilmiş bir kaynak arar.
-        /// </summary>
         internal static System.Drawing.Bitmap StockProduct {
             get {
                 object obj = ResourceManager.GetObject("StockProduct", resourceCulture);
