@@ -21,9 +21,10 @@ namespace Cafe_Adisyon
         // saat labeli güncellendikten sonra button rengi gidiyor ??.
         // siparis eklendikten sonra o masanın doluluk değerini 1 yapacaz fiyat değerini hem db hem de lbl da gösterecez. yapıldı
         // hata 1 alınıyor button rengini değiştiremiyoruz.
+        // siparis bilgilerini ayrı bir paenl içine almalıyız ve her masa değiştiğinde panel sıfırlanmalı. Sorun sadece ilk yemek listeleniyor sebenini buk.
 
         // to do -> masa rengi sorununu çözümü
-        // to do -> siparis ekleme sayfası kapatıldıktan sonra sol sekmedeki masa bilgileri ve siparis bilgilerini gösterecek metot.
+        // to do -> siparis ekleme sayfası kapatıldıktan sonra sol sekmedeki masa bilgileri(yapıldı) ve siparis bilgilerini gösterecek metot.
         // to do -> sol alt ekranda ödeme işlemleri
         // to do -> fiş yazdırma
         // to do -> masa ekleme çıkarma
@@ -205,7 +206,7 @@ namespace Cafe_Adisyon
         Label lblSiparisFiyat = new Label();
         Label lblMasaAd = new Label();
         Label lblSiparisEkleDurum = new Label(); // siparis eklendiğinde visiable true olacak.
-        
+
 
         private void buttonCode(object sender, EventArgs e)
         {
@@ -263,7 +264,7 @@ namespace Cafe_Adisyon
             pnlSiparis.Controls.Add(lbl4);
             lbl4.AutoSize = true;
             lbl4.Font = new Font("Segoe UI Symbol", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
-            lbl4.Location = new Point(71,200);
+            lbl4.Location = new Point(71, 200);
             lbl4.Size = new Size(89, 25);
             lbl4.TabIndex = 5;
             lbl4.Text = "Fiyat:";
@@ -276,7 +277,7 @@ namespace Cafe_Adisyon
             cmbBxSiparisKategori.FormattingEnabled = true;
             cmbBxSiparisKategori.Items.Clear();
 
-            SqlCommand cmd = new SqlCommand("SELECT *FROM MENULER",conn);
+            SqlCommand cmd = new SqlCommand("SELECT *FROM MENULER", conn);
             conn.Open();
             SqlDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
@@ -392,7 +393,7 @@ namespace Cafe_Adisyon
         {
             ComboBox cmbBx = sender as ComboBox;
             cmbBxSiparisUrun.Items.Clear();
-            SqlCommand cmd = new SqlCommand("SELECT *FROM " + cmbBx.Text,conn);
+            SqlCommand cmd = new SqlCommand("SELECT *FROM " + cmbBx.Text, conn);
             conn.Open();
             SqlDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
@@ -407,10 +408,10 @@ namespace Cafe_Adisyon
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void cmbBxSiparisUrun_SelectedIndexChanged(object sender,EventArgs e)
+        private void cmbBxSiparisUrun_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox cmbBx = sender as ComboBox;
-            SqlCommand cmd  = new SqlCommand("SELECT *FROM " + cmbBxSiparisKategori.Text + " WHERE isim='" + cmbBxSiparisUrun.Text + "'",conn);
+            SqlCommand cmd = new SqlCommand("SELECT *FROM " + cmbBxSiparisKategori.Text + " WHERE isim='" + cmbBxSiparisUrun.Text + "'", conn);
             conn.Open();
             SqlDataReader dr = cmd.ExecuteReader();
             if (dr.Read())
@@ -431,7 +432,7 @@ namespace Cafe_Adisyon
             ComboBox cmbBx = sender as ComboBox;
             int s1 = Int16.Parse(cmbBx.Text);
 
-            lblSiparisFiyat.Text = (s1*urunFiyat).ToString();
+            lblSiparisFiyat.Text = (s1 * urunFiyat).ToString();
         }
 
         /// <summary>
@@ -447,7 +448,7 @@ namespace Cafe_Adisyon
             cmbBxSiparisCarpan.Text = "";
             lblSiparisFiyat.Text = "";
         }
-        
+
         /// <summary>
         /// Siparis ekleme panelinde seçili yemeği ilgili tablolara ekler ve masayı dolu gösterir. Toplam dk ve fiyat labellerda gözükür.
         /// </summary>
@@ -465,32 +466,32 @@ namespace Cafe_Adisyon
                 // kategoriId değişkenine ulaştık.
                 SqlCommand cmd = new SqlCommand("SELECT *FROM MENULER WHERE isim='" + cmbBxSiparisKategori.Text + "'", conn);
                 SqlDataReader dr = cmd.ExecuteReader();
-                if(dr.Read())
+                if (dr.Read())
                 {
                     kategoriId = Int16.Parse(dr["kategoriId"].ToString());
                 }
 
-                cmd.Dispose();dr.Close();
+                cmd.Dispose(); dr.Close();
 
-                cmd = new SqlCommand("insert into " + lblMasaAd.Text + "(kategoriId,isim,fiyat,siparisSayisi) values (" + kategoriId + ",'" + cmbBxSiparisUrun.Text + "'," + urunFiyat + "," + Int16.Parse(cmbBxSiparisCarpan.Text) +")", conn);
+                cmd = new SqlCommand("insert into " + lblMasaAd.Text + "(kategoriId,isim,fiyat,siparisSayisi) values (" + kategoriId + ",'" + cmbBxSiparisUrun.Text + "'," + urunFiyat + "," + Int16.Parse(cmbBxSiparisCarpan.Text) + ")", conn);
                 cmd.ExecuteNonQuery();
 
                 // Masa tablosuna eklendi
 
-                
-                 deger = lblMasaAd.Text.Substring(4);
-                
-                
+
+                deger = lblMasaAd.Text.Substring(4);
+
+
                 // MASALAR tablosunda güncellemeler yapıldı
-                cmd = new SqlCommand("SELECT *FROM MASALAR WHERE masaId="+deger,conn);
+                cmd = new SqlCommand("SELECT *FROM MASALAR WHERE masaId=" + deger, conn);
                 dr = cmd.ExecuteReader();
-                if(dr.Read())
+                if (dr.Read())
                 {
-                    toplamfiyat = Int16.Parse(dr["fiyat"].ToString()) ;
+                    toplamfiyat = Int16.Parse(dr["fiyat"].ToString());
                 }
                 toplamfiyat += urunFiyat * Int16.Parse(cmbBxSiparisCarpan.Text);
                 dr.Close();
-                cmd = new SqlCommand("update MASALAR set masaDoluluk=1, fiyat="+toplamfiyat.ToString()+" WHERE masaId="+deger,conn);
+                cmd = new SqlCommand("update MASALAR set masaDoluluk=1, fiyat=" + toplamfiyat.ToString() + " WHERE masaId=" + deger, conn);
                 cmd.ExecuteNonQuery();
 
 
@@ -504,7 +505,7 @@ namespace Cafe_Adisyon
                 MessageBox.Show("Tüm alanları doldurun!");
             }
         }
-    
+
         /// <summary>
         /// Siparis ekleme panelini kapatır.
         /// </summary>
@@ -514,9 +515,177 @@ namespace Cafe_Adisyon
         {
             pnlSiparis.Controls.Clear();
             pnlSiparis.Visible = false;
-            lblSiparisEkleDurum.Visible=false;
+            lblSiparisEkleDurum.Visible = false;
+            pnlMasaBilgileri();
         }
-    
-    
+
+
+        private void pnlMasaBilgileri()
+        {
+            panel4.Controls.Clear();
+            pnlMasaDetay.Visible = true;
+            panel4.Visible = true;
+            // masa ad labelleri
+            Label lbl1 = new Label();
+            panel4.Controls.Add(lbl1);
+            lbl1.Font = new Font("Calibri", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            lbl1.AutoSize = true;
+            lbl1.Location = new Point(6, 27);
+            lbl1.Size = new Size(65, 18);
+            lbl1.TabIndex = 0;
+            lbl1.Text = "Masa Adı:";
+            //
+            //
+            Label lbl2 = new Label();
+            panel4.Controls.Add(lbl2);
+            lbl2.Font = new Font("Calibri", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            lbl2.AutoSize = true;
+            lbl2.Location = new Point(76, 26);
+            lbl2.Size = new Size(65, 18);
+            lbl2.TabIndex = 0;
+            lbl2.Text = lblMasaAd.Text;
+            //
+            // fiyat labelleri
+            //
+            Label lbl3 = new Label();
+            panel4.Controls.Add(lbl3);
+            lbl3.Font = new Font("Calibri", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            lbl3.AutoSize = true;
+            lbl3.Location = new Point(166, 27);
+            lbl3.Size = new Size(83, 18);
+            lbl3.TabIndex = 0;
+            lbl3.Text = "Toplam Ücret:";
+            //
+            //
+            Label label4 = new Label();
+            panel4.Controls.Add(label4);
+            label4.Font = new Font("Calibri", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            label4.AutoSize = true;
+            label4.Location = new Point(266, 27);
+            label4.Size = new Size(65, 18);
+            label4.TabIndex = 0;
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("SELECT *FROM MASALAR WHERE masaID=" + lblMasaAd.Text.Substring(4), conn);
+            SqlDataReader dr = cmd.ExecuteReader();
+            if (dr.Read())
+                label4.Text = dr["fiyat"].ToString();
+            conn.Close(); dr.Close();
+            //
+            // Oturma Süresi Labelleri
+            //
+            Label label5 = new Label();
+            panel4.Controls.Add(label5);
+            label5.Font = new Font("Calibri", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            label5.AutoSize = true;
+            label5.Location = new Point(6, 69);
+            label5.Size = new Size(83, 18);
+            label5.TabIndex = 0;
+            label5.Text = "Oturma Süresi:";
+            //
+            //
+            Label label6 = new Label();
+            panel4.Controls.Add(label6);
+            label6.Font = new Font("Calibri", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            label6.AutoSize = true;
+            label6.Location = new Point(106, 69);
+            label6.Size = new Size(83, 18);
+            label6.TabIndex = 0;
+            conn.Open();
+            cmd = new SqlCommand("SELECT *FROM MASALAR WHERE masaID=" + lblMasaAd.Text.Substring(4), conn);
+            dr = cmd.ExecuteReader();
+            if (dr.Read())
+                label6.Text = dr["masaOturmaSuresi"].ToString();
+            conn.Close();
+
+            pnlMasaSiparis();
+        }
+
+
+        private void pnlMasaSiparis()
+        {
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("SELECT *FROM " + lblMasaAd.Text, conn);
+            SqlDataReader dr = cmd.ExecuteReader();
+            int sayac = 130;
+            while (dr.Read())
+            {
+                Panel pnlSiparis = new Panel();
+                pnlMasaDetay.Controls.Add(pnlSiparis);
+                pnlSiparis.BackColor = SystemColors.ButtonHighlight;
+                pnlSiparis.BorderStyle = BorderStyle.FixedSingle;
+                pnlSiparis.Location = new Point(0, sayac);
+                pnlSiparis.Size = new Size(350, 70);
+                pnlSiparis.TabIndex = 7;
+                //
+                //
+                Label lblYemekAd = new Label();
+                pnlSiparis.Controls.Add(lblYemekAd);
+                lblYemekAd.AutoSize = true;
+                lblYemekAd.Font = new Font("Calibri", 12F, FontStyle.Bold, GraphicsUnit.Point);
+                lblYemekAd.ForeColor = Color.Firebrick;
+                lblYemekAd.Location = new Point(46, 7);
+                lblYemekAd.Size = new Size(80, 19);
+                lblYemekAd.TabIndex = 1;
+                lblYemekAd.Text = dr["isim"].ToString();
+                //
+                //
+                Label lblYemekAdet = new Label();
+                pnlSiparis.Controls.Add(lblYemekAdet);
+                lblYemekAdet.AutoSize = true;
+                lblYemekAdet.Font = new Font("Calibri", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
+                lblYemekAdet.ForeColor = Color.Firebrick;
+                lblYemekAdet.Location = new Point(17, 26);
+                lblYemekAdet.Size = new Size(23, 26);
+                lblYemekAdet.TabIndex = 0;
+                lblYemekAdet.Text = dr["siparisSayisi"].ToString();
+                //
+                //
+                Label lblStatic = new Label();
+                pnlSiparis.Controls.Add(lblStatic);
+                lblStatic.AutoSize = true;
+                lblStatic.Font = new Font("Calibri", 9F, FontStyle.Bold, GraphicsUnit.Point);
+                lblStatic.ForeColor = Color.Firebrick;
+                lblStatic.Location = new Point(46, 35);;
+                lblStatic.Size = new Size(28, 14);
+                lblStatic.TabIndex = 5;
+                lblStatic.Text = "A.D.";
+                //
+                //
+                Label lblStatic2 = new Label();
+                pnlSiparis.Controls.Add(lblStatic2);
+                lblStatic2.AutoSize = true;
+                lblStatic2.Font = new Font("Calibri", 9F, FontStyle.Bold, GraphicsUnit.Point);
+                lblStatic2.ForeColor = Color.Firebrick;
+                lblStatic2.Location = new Point(219, 28);
+                lblStatic2.Size = new Size(14, 14);
+                lblStatic2.TabIndex = 2;
+                lblStatic2.Text = "X";
+                //
+                //
+                Label lblYemekFiyat = new Label();
+                pnlSiparis.Controls.Add(lblYemekFiyat);
+                lblYemekFiyat.AutoSize = true;
+                lblYemekFiyat.Font = new Font("Calibri", 12F, FontStyle.Bold, GraphicsUnit.Point);
+                lblYemekFiyat.ForeColor = Color.Firebrick;
+                lblYemekFiyat.Location = new Point(268, 10);
+                lblYemekFiyat.Size = new Size(45, 19);
+                lblYemekFiyat.TabIndex = 3;
+                lblYemekFiyat.Text = dr["fiyat"].ToString();
+                //
+                //
+                Label lblSiparisToplamFiyat = new Label();
+                pnlSiparis.Controls.Add(lblSiparisToplamFiyat);
+                lblSiparisToplamFiyat.AutoSize = true;
+                lblSiparisToplamFiyat.Font = new Font("Calibri", 12F, FontStyle.Bold, GraphicsUnit.Point);
+                lblSiparisToplamFiyat.ForeColor = Color.Firebrick;
+                lblSiparisToplamFiyat.Location = new Point(268, 38);
+                lblSiparisToplamFiyat.Size = new Size(53, 19);
+                lblSiparisToplamFiyat.TabIndex = 4;
+                lblSiparisToplamFiyat.Text = (Int16.Parse(dr["fiyat"].ToString()) * Int16.Parse(dr["siparisSayisi"].ToString())).ToString();
+            }
+            conn.Close();
+            sayac+= 150;
+        }
+
     }
 }

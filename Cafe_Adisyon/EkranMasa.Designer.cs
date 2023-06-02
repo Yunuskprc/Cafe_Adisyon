@@ -39,7 +39,7 @@
             btnGrafik = new Button();
             btnMenu = new Button();
             btnMasa = new Button();
-            pnlMasa1 = new Panel();
+            pnlMasaDetay = new Panel();
             lblMasaPnl1MasaAd = new Label();
             pnlMasa4 = new Panel();
             btnOdemeKart = new Button();
@@ -54,7 +54,7 @@
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pctbxYEDLogo).BeginInit();
             panel2.SuspendLayout();
-            pnlMasa1.SuspendLayout();
+            pnlMasaDetay.SuspendLayout();
             pnlMasa4.SuspendLayout();
             SuspendLayout();
             // 
@@ -175,17 +175,17 @@
             btnMasa.UseVisualStyleBackColor = true;
             btnMasa.Click += btnMasa_Click;
             // 
-            // pnlMasa1
+            // pnlMasaDetay
             // 
-            pnlMasa1.BorderStyle = BorderStyle.FixedSingle;
-            pnlMasa1.Controls.Add(lblMasaPnl1MasaAd);
-            pnlMasa1.Controls.Add(pnlMasa4);
-            pnlMasa1.Controls.Add(panel4);
-            pnlMasa1.Location = new Point(100, 30);
-            pnlMasa1.Name = "pnlMasa1";
-            pnlMasa1.Size = new Size(350, 1050);
-            pnlMasa1.TabIndex = 10;
-            pnlMasa1.Visible = false;
+            pnlMasaDetay.BorderStyle = BorderStyle.FixedSingle;
+            pnlMasaDetay.Controls.Add(lblMasaPnl1MasaAd);
+            pnlMasaDetay.Controls.Add(pnlMasa4);
+            pnlMasaDetay.Controls.Add(panel4);
+            pnlMasaDetay.Location = new Point(100, 30);
+            pnlMasaDetay.Name = "pnlMasaDetay";
+            pnlMasaDetay.Size = new Size(350, 1050);
+            pnlMasaDetay.TabIndex = 10;
+            pnlMasaDetay.Visible = false;
             // 
             // lblMasaPnl1MasaAd
             // 
@@ -300,7 +300,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1904, 1041);
             Controls.Add(pnlMain);
-            Controls.Add(pnlMasa1);
+            Controls.Add(pnlMasaDetay);
             Controls.Add(panel2);
             Controls.Add(panel1);
             Name = "EkranMasa";
@@ -311,8 +311,8 @@
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pctbxYEDLogo).EndInit();
             panel2.ResumeLayout(false);
-            pnlMasa1.ResumeLayout(false);
-            pnlMasa1.PerformLayout();
+            pnlMasaDetay.ResumeLayout(false);
+            pnlMasaDetay.PerformLayout();
             pnlMasa4.ResumeLayout(false);
             pnlMasa4.PerformLayout();
             ResumeLayout(false);
@@ -330,7 +330,7 @@
         private Button btnGrafik;
         private Button btnMenu;
         private Button btnMasa;
-        private Panel pnlMasa1;
+        private Panel pnlMasaDetay;
         private Label lblMasaPnl1MasaAd;
         private Panel pnlMasa4;
         private Button btnOdemeKart;
