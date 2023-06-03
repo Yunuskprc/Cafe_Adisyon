@@ -43,12 +43,16 @@ namespace Cafe_Adisyon
         // sol pencere tuşlarına kodlar yazılacak
         private void btnMasa_Click(object sender, EventArgs e)
         {
-
+            EkranMasa nEkranMasa = new EkranMasa();
+            nEkranMasa.Show();
+            this.Hide();
         }
 
         private void btnMenu_Click(object sender, EventArgs e)
         {
-
+            EkranMenu nEkranMenu = new EkranMenu();
+            nEkranMenu.Show();
+            this.Hide();
         }
 
         private void btnGuncelleme_Click(object sender, EventArgs e)
