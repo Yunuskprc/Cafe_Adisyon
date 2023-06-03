@@ -297,7 +297,8 @@
             // pnlMain
             // 
             pnlMain.AutoScroll = true;
-            pnlMain.BackColor = SystemColors.ActiveCaption;
+            pnlMain.BackColor = SystemColors.Control;
+            pnlMain.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
             pnlMain.Location = new Point(450, 30);
             pnlMain.Name = "pnlMain";
             pnlMain.Size = new Size(1459, 1050);

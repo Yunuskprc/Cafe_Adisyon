@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using Cafe_Adisyon.Properties;
+using System.Resources;
 
 
 namespace Cafe_Adisyon
@@ -18,17 +20,11 @@ namespace Cafe_Adisyon
         {
             InitializeComponent();
         }
-
-        // saat labeli güncellendikten sonra button rengi gidiyor ??.
-        // siparis eklendikten sonra o masanın doluluk değerini 1 yapacaz fiyat değerini hem db hem de lbl da gösterecez. yapıldı
-        // hata 1 alınıyor button rengini değiştiremiyoruz.
-        // siparis bilgilerini ayrı bir paenl içine almalıyız ve her masa değiştiğinde panel sıfırlanmalı. Sorun sadece ilk yemek listeleniyor sebenini buk.
-
-        // to do -> masa rengi sorununu çözümü
-        // to do -> siparis ekleme sayfası kapatıldıktan sonra sol sekmedeki masa bilgileri(yapıldı) ve siparis bilgilerini gösterecek metot.
-        // to do -> sol alt ekranda ödeme işlemleri
-        // to do -> fiş yazdırma
-        // to do -> masa ekleme çıkarma
+        // to do -> masa rengi sorununu çözümü ✓✓
+        // to do -> siparis ekleme sayfası kapatıldıktan sonra sol sekmedeki masa bilgileri(yapıldı) ve siparis bilgilerini gösterecek metot. ✓✓
+        // to do -> sol alt ekranda ödeme işlemleri ✓✓
+        // to do -> fiş yazdırma ✓✓
+        // to do -> masa ekleme çıkarma ✓✓
 
         SqlConnection conn = new SqlConnection("Server=localhost\\SQLEXPRESS;Database=Cafe_Adisyon;Trusted_Connection=True;");
         DateTime dt = DateTime.Now;
@@ -88,6 +84,9 @@ namespace Cafe_Adisyon
         private void MasalariBastir()
         {
             pnlMain.Controls.Clear();
+            listBtnMasa.Clear();
+            listLblDk.Clear();
+            listLblFiyat.Clear();
             int x = 10, y = 10;
             int sayac = 0;
             conn.Open();
@@ -139,12 +138,108 @@ namespace Cafe_Adisyon
                 listLblFiyat.Add(lblFiyat);
                 sayac++;
             }
+
+            //
+            // Masa Ekle tuşu ve Masa Sil tuşu kodları
+            //
+            Button btnMasaEkle = new Button();
+            pnlMain.Controls.Add(btnMasaEkle);
+            btnMasaEkle.BackColor = Color.FromArgb(0, 185, 169);
+            btnMasaEkle.BackgroundImage = Cafe_Adisyon.Properties.Resources.btnMasaEkle;
+            btnMasaEkle.FlatAppearance.BorderSize = 0;
+            btnMasaEkle.FlatStyle = FlatStyle.Flat;
+            btnMasaEkle.ForeColor = SystemColors.Control;
+            btnMasaEkle.Location = new Point(1158, 938);
+            btnMasaEkle.Size = new Size(110, 50);
+            btnMasaEkle.TabIndex = 0;
+            btnMasaEkle.Text = "Masa Ekle";
+            btnMasaEkle.UseVisualStyleBackColor = false;
+            btnMasaEkle.Visible = true;
+            btnMasaEkle.Click += btnMasaEkle_Clik;
+
+            Button btnMasaSil = new Button();
+            pnlMain.Controls.Add(btnMasaSil);
+            btnMasaSil.BackColor = Color.FromArgb(144, 52, 82);
+            btnMasaSil.BackgroundImage = Cafe_Adisyon.Properties.Resources.btnMasaSil;
+            btnMasaSil.FlatAppearance.BorderSize = 0;
+            btnMasaSil.FlatStyle = FlatStyle.Flat;
+            btnMasaSil.ForeColor = SystemColors.Control;
+            btnMasaSil.Location = new Point(1304, 938);
+            btnMasaSil.Size = new Size(110, 50);
+            btnMasaSil.TabIndex = 1;
+            btnMasaSil.Text = "Masa Sil";
+            btnMasaSil.UseVisualStyleBackColor = false;
+            btnMasaSil.Visible = true;
+            btnMasaSil.Click += btnMasaSil_Clik;
+
             conn.Close();
             MasaGuncelle();
             timerUpdate.Start();
         }
 
 
+
+        /// <summary>
+        /// +1 Masa Ekler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnMasaEkle_Clik(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            string mesaj = "Masa eklemek istiyor musunuz?";
+            string baslik = "Masa Ekleme";
+            MessageBoxButtons buttonMB = MessageBoxButtons.YesNo;
+            DialogResult result = MessageBox.Show(mesaj, baslik, buttonMB);
+            if (result == DialogResult.Yes)
+            {
+                int count = RowsCount("MASALAR") + 1;
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("CREATE TABLE MASA"+count+"(masaId int,kategoriId int,isim nvarchar(50),fiyat int,siparisSayisi int)",conn);
+                cmd.ExecuteNonQuery();
+                // Tablo oluşturuldu Masalar tablosunda göstermek kaldı.
+                cmd = new SqlCommand("insert into MASALAR(masaId,masaDoluluk,masaOturmaSuresi,fiyat) values ("+count+",0,0,0)",conn);
+                cmd.ExecuteNonQuery();
+                conn.Close();
+                mesaj = "Masa Eklendi...";
+                MessageBox.Show(mesaj, baslik);
+                MasalariBastir();
+            }
+        }
+
+        /// <summary>
+        /// -1 masa siler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnMasaSil_Clik(object sender,EventArgs e)
+        {
+            Button btn = sender as Button;
+            string mesaj = "Masayı kaldırmak istiyor musunuz?";
+            string baslik = "Masa Kaldırma";
+            MessageBoxButtons buttonMB = MessageBoxButtons.YesNo;
+            DialogResult result = MessageBox.Show(mesaj, baslik, buttonMB);
+            if (result == DialogResult.Yes)
+            {
+                int count = RowsCount("MASALAR");
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("DROP TABLE MASA" + count, conn);
+                cmd.ExecuteNonQuery();
+                cmd = new SqlCommand("DELETE FROM MASALAR WHERE masaId="+count, conn);
+                cmd.ExecuteNonQuery();
+                mesaj = "Masa Kaldırıldı...";
+                MessageBox.Show(mesaj, baslik);
+                conn.Close();
+                MasalariBastir();
+            }
+        }
+
+
+
+
+        /// <summary>
+        /// Dolu olan masaların arka plan rengini değiştirir.
+        /// </summary>
         private void MasaGuncelle()
         {
             conn.Open();
@@ -162,6 +257,11 @@ namespace Cafe_Adisyon
             conn.Close();
         }
 
+        /// <summary>
+        /// Masaların oturma süresini okur ve günceller.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void timerUpdate_Tick(object sender, EventArgs e)
         {
             conn.Open();
@@ -208,7 +308,11 @@ namespace Cafe_Adisyon
         Label lblMasaAd = new Label();
         Label lblSiparisEkleDurum = new Label(); // siparis eklendiğinde visiable true olacak.
 
-
+        /// <summary>
+        /// Masalara Tıklandığında Sipraiş verme Panelini oluşturur. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonCode(object sender, EventArgs e)
         {
             Button btn = sender as Button;
@@ -382,9 +486,6 @@ namespace Cafe_Adisyon
         }
 
 
-
-
-
         /// <summary>
         /// Sipariş verme panelinde ki comboBoxların methodudur.Kategoriye göre ürünleri diğer combobox a taşır.
         /// </summary>
@@ -527,6 +628,8 @@ namespace Cafe_Adisyon
             SqlDataReader dr = cmd.ExecuteReader();
             if (dr.Read())
             {
+                lblMasaPnl4Toplam.Visible = true;
+                label2.Visible = true;
                 lblMasaPnl4Toplam.Text = dr["fiyat"].ToString();
             }
             conn.Close();
@@ -727,6 +830,8 @@ namespace Cafe_Adisyon
         }
 
 
+
+
         // her fiş oluştuğunda bu panel fiş temizlenecek.
         Panel pnlFis = new Panel();
 
@@ -751,7 +856,7 @@ namespace Cafe_Adisyon
             }
             dr.Close();
 
-            cmd = new SqlCommand("insert into SatisTakip(adisyonNo,tarih,fiyat) values ("+ count +",'" + tarih + "'," + fiyat + ")",conn);
+            cmd = new SqlCommand("insert into SatisTakip(adisyonNo,tarih,fiyat) values (" + count + ",'" + tarih + "'," + fiyat + ")", conn);
             cmd.ExecuteNonQuery();
             conn.Close();
 
@@ -870,7 +975,7 @@ namespace Cafe_Adisyon
             pnlFisUrunler.AutoScroll = true;
 
             conn.Open();
-            cmd = new SqlCommand("SELECT *FROM "+lblMasaAd.Text,conn);
+            cmd = new SqlCommand("SELECT *FROM " + lblMasaAd.Text, conn);
             dr = cmd.ExecuteReader();
             fiyat = 0;
             int y = 0; // masadaki siparişlerin konumunu değiştirmek için kullanılır.
@@ -907,7 +1012,7 @@ namespace Cafe_Adisyon
                 lblFisUrunTutar.Location = new Point(260, y);
                 lblFisUrunTutar.Size = new Size(13, 15);
                 lblFisUrunTutar.TabIndex = 27;
-                lblFisUrunTutar.Text = fiyat.ToString();    
+                lblFisUrunTutar.Text = fiyat.ToString();
                 lblFisUrunTutar.Font = new Font("Segoe UI", 9);
 
                 ToplamUCret += fiyat;
@@ -946,7 +1051,7 @@ namespace Cafe_Adisyon
             lbl8.TabIndex = 44;
             lbl8.Text = "İyi Günler Dileriz.";
 
-            
+
 
             Button btnFisClose = new Button();
             pnlFis.Controls.Add(btnFisClose);
@@ -965,26 +1070,42 @@ namespace Cafe_Adisyon
             //
             conn.Open();
 
-            MessageBox.Show(lblMasaAd.Text);
-            cmd = new SqlCommand("DELETE FROM " + lblMasaAd.Text +"", conn);
-            cmd.ExecuteNonQuery();  
+            cmd = new SqlCommand("DELETE FROM " + lblMasaAd.Text + "", conn);
+            cmd.ExecuteNonQuery();
 
-            cmd = new SqlCommand("UPDATE MASALAR SET masaDoluluk=0, masaOturmaSuresi=0, fiyat=0 WHERE masaId="+lblMasaAd.Text.Substring(4), conn);
+            cmd = new SqlCommand("UPDATE MASALAR SET masaDoluluk=0, masaOturmaSuresi=0, fiyat=0 WHERE masaId=" + lblMasaAd.Text.Substring(4), conn);
             cmd.ExecuteNonQuery();
 
             conn.Close();
-            MasalariBastir();
-            MasaGuncelle();
+            
         }
 
+        /// <summary>
+        /// Oluşturulan fişi kapatma metodudur.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnFisClose_Click(object sender, EventArgs e)
         {
             Button btn = sender as Button;
+            MasalariBastir();
+            MasaGuncelle();
             pnlFis.Visible = false;
             pnlFis.Controls.Clear();
+            panel3.Controls.Clear();
+            panel4.Controls.Clear();
+            lblMasaPnl1MasaAd.Text = "";
+            lblMasaPnl4Toplam.Text = "";
+            lblMasaPnl4Toplam.Visible = false;
+            label2.Visible = false;
 
         }
 
+        /// <summary>
+        /// İlgili tablonun satır sayısını geri döndürür.
+        /// </summary>
+        /// <param name="tableName">Tablo Adı</param>
+        /// <returns></returns>
         public int RowsCount(string tableName)
         {
             string stmt = "SELECT COUNT(*) FROM " + tableName;
