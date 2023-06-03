@@ -40,8 +40,9 @@
             btnMenu = new Button();
             btnMasa = new Button();
             pnlMasaDetay = new Panel();
+            panel3 = new Panel();
             lblMasaPnl1MasaAd = new Label();
-            pnlMasa4 = new Panel();
+            pnlMasaOdeme = new Panel();
             btnOdemeKart = new Button();
             btnOdemeNakit = new Button();
             btnOdemeQR = new Button();
@@ -55,7 +56,7 @@
             ((System.ComponentModel.ISupportInitialize)pctbxYEDLogo).BeginInit();
             panel2.SuspendLayout();
             pnlMasaDetay.SuspendLayout();
-            pnlMasa4.SuspendLayout();
+            pnlMasaOdeme.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -178,14 +179,23 @@
             // pnlMasaDetay
             // 
             pnlMasaDetay.BorderStyle = BorderStyle.FixedSingle;
+            pnlMasaDetay.Controls.Add(panel3);
             pnlMasaDetay.Controls.Add(lblMasaPnl1MasaAd);
-            pnlMasaDetay.Controls.Add(pnlMasa4);
+            pnlMasaDetay.Controls.Add(pnlMasaOdeme);
             pnlMasaDetay.Controls.Add(panel4);
             pnlMasaDetay.Location = new Point(100, 30);
             pnlMasaDetay.Name = "pnlMasaDetay";
             pnlMasaDetay.Size = new Size(350, 1050);
             pnlMasaDetay.TabIndex = 10;
-            pnlMasaDetay.Visible = false;
+            // 
+            // panel3
+            // 
+            panel3.AutoScroll = true;
+            panel3.BackColor = SystemColors.Control;
+            panel3.Location = new Point(0, 130);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(350, 647);
+            panel3.TabIndex = 9;
             // 
             // lblMasaPnl1MasaAd
             // 
@@ -198,20 +208,20 @@
             lblMasaPnl1MasaAd.Text = "Masa 15";
             lblMasaPnl1MasaAd.Visible = false;
             // 
-            // pnlMasa4
+            // pnlMasaOdeme
             // 
-            pnlMasa4.BackColor = SystemColors.ButtonFace;
-            pnlMasa4.BorderStyle = BorderStyle.FixedSingle;
-            pnlMasa4.Controls.Add(btnOdemeKart);
-            pnlMasa4.Controls.Add(btnOdemeNakit);
-            pnlMasa4.Controls.Add(btnOdemeQR);
-            pnlMasa4.Controls.Add(label2);
-            pnlMasa4.Controls.Add(lblMasaPnl4Toplam);
-            pnlMasa4.Location = new Point(0, 862);
-            pnlMasa4.Name = "pnlMasa4";
-            pnlMasa4.Size = new Size(350, 149);
-            pnlMasa4.TabIndex = 7;
-            pnlMasa4.Visible = false;
+            pnlMasaOdeme.BackColor = SystemColors.ButtonFace;
+            pnlMasaOdeme.BorderStyle = BorderStyle.FixedSingle;
+            pnlMasaOdeme.Controls.Add(btnOdemeKart);
+            pnlMasaOdeme.Controls.Add(btnOdemeNakit);
+            pnlMasaOdeme.Controls.Add(btnOdemeQR);
+            pnlMasaOdeme.Controls.Add(label2);
+            pnlMasaOdeme.Controls.Add(lblMasaPnl4Toplam);
+            pnlMasaOdeme.Location = new Point(0, 862);
+            pnlMasaOdeme.Name = "pnlMasaOdeme";
+            pnlMasaOdeme.Size = new Size(350, 149);
+            pnlMasaOdeme.TabIndex = 7;
+            pnlMasaOdeme.Visible = false;
             // 
             // btnOdemeKart
             // 
@@ -223,6 +233,7 @@
             btnOdemeKart.Size = new Size(70, 70);
             btnOdemeKart.TabIndex = 6;
             btnOdemeKart.UseVisualStyleBackColor = true;
+            btnOdemeKart.Click += btnOdemeKart_Click;
             // 
             // btnOdemeNakit
             // 
@@ -235,6 +246,7 @@
             btnOdemeNakit.Size = new Size(70, 70);
             btnOdemeNakit.TabIndex = 5;
             btnOdemeNakit.UseVisualStyleBackColor = true;
+            btnOdemeNakit.Click += btnOdemeNakit_Click;
             // 
             // btnOdemeQR
             // 
@@ -246,6 +258,7 @@
             btnOdemeQR.Size = new Size(70, 70);
             btnOdemeQR.TabIndex = 4;
             btnOdemeQR.UseVisualStyleBackColor = true;
+            btnOdemeQR.Click += btnOdemeQR_Click;
             // 
             // label2
             // 
@@ -283,6 +296,7 @@
             // 
             // pnlMain
             // 
+            pnlMain.AutoScroll = true;
             pnlMain.BackColor = SystemColors.ActiveCaption;
             pnlMain.Location = new Point(450, 30);
             pnlMain.Name = "pnlMain";
@@ -313,8 +327,8 @@
             panel2.ResumeLayout(false);
             pnlMasaDetay.ResumeLayout(false);
             pnlMasaDetay.PerformLayout();
-            pnlMasa4.ResumeLayout(false);
-            pnlMasa4.PerformLayout();
+            pnlMasaOdeme.ResumeLayout(false);
+            pnlMasaOdeme.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -332,7 +346,7 @@
         private Button btnMasa;
         private Panel pnlMasaDetay;
         private Label lblMasaPnl1MasaAd;
-        private Panel pnlMasa4;
+        private Panel pnlMasaOdeme;
         private Button btnOdemeKart;
         private Button btnOdemeNakit;
         private Button btnOdemeQR;
@@ -342,5 +356,6 @@
         private System.Windows.Forms.Timer TimerDate;
         private Panel pnlMain;
         private System.Windows.Forms.Timer timerUpdate;
+        private Panel panel3;
     }
 }
