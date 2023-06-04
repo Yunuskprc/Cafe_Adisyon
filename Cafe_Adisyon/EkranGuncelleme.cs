@@ -24,6 +24,8 @@ namespace Cafe_Adisyon
         // to do -> btnYeniYemek Ekle meotdu✓✓
         // to do -> kategori ekle ve sil butonları
 
+        // pnl menüEkle tamamlandı, close butonu çalışıyor, ekle butonunda boolean hatası alıyoruz. Yarın menu sil ve menu kaydet i düzenle;
+
 
 
         private void btnMasa_Click(object sender, EventArgs e)
@@ -408,18 +410,163 @@ namespace Cafe_Adisyon
             btnAra_Click(sender, e);
         }
 
+
+
+
+
+
+        TextBox txtMenuAd = new TextBox();
+        TextBox txtMenuAciklama = new TextBox();
+        Panel pnlMenuEkle = new Panel();
         private void btnMenuEkle_Click(object sender, EventArgs e)
         {
             panel4.Controls.Clear();
             panel4.Visible = false;
             panel5.Visible = false;
 
-            Panel pnl = new Panel();
-            Controls.Add(pnl);
-            pnl.Size = new Size(500, 350);
-            pnl.Location = new Point(800, 380);
-            pnl.BackColor = Color.Aqua;
+            
+            Controls.Add(pnlMenuEkle);
+            pnlMenuEkle.Size = new Size(460, 220);
+            pnlMenuEkle.Location = new Point(760, 360);
+            pnlMenuEkle.BackColor = Color.FromArgb(254,254,255);
+
+            Label lbl1 = new Label();
+            pnlMenuEkle.Controls.Add(lbl1);
+            lbl1.Font = new Font("Segoe UI Semibold", 15, FontStyle.Bold);
+            lbl1.Text = "Menü Ekleme Sayfası";
+            lbl1.ForeColor = System.Drawing.Color.FromArgb(118, 128, 143);
+            lbl1.Visible = true;
+            lbl1.Location = new Point(140, 20);
+            lbl1.Size = new Size(250, 30);
+
+            Label lbl2 = new Label();
+            pnlMenuEkle.Controls.Add(lbl2);
+            lbl2.Font = new Font("Segoe UI Semibold", 10, FontStyle.Bold);
+            lbl2.Text = "Menü Ad:";
+            lbl2.ForeColor = System.Drawing.Color.FromArgb(118, 128, 143);
+            lbl2.Visible = true;
+            lbl2.Location = new Point(50, 91);
+            lbl2.Size = new Size(70, 30);
+
+            pnlMenuEkle.Controls.Add(txtMenuAd);
+            txtMenuAd.Size = new System.Drawing.Size(240, 20);
+            txtMenuAd.BackColor = System.Drawing.Color.FromArgb(255, 255, 255, 255);
+            txtMenuAd.Font = new Font("Segoe UI Semibold", 9, FontStyle.Bold);
+            txtMenuAd.ForeColor = System.Drawing.Color.FromArgb(118, 128, 143);
+            txtMenuAd.Location = new System.Drawing.Point(130, 90);
+            txtMenuAd.Visible = true;
+            txtMenuAd.TextAlign = HorizontalAlignment.Center;
+            txtMenuAd.BorderStyle = BorderStyle.Fixed3D;
+            txtMenuAd.Text = "Menu_MenuAd şeklinde olmalıdır.";
+
+            Label lbl3 = new Label();
+            pnlMenuEkle.Controls.Add(lbl3);
+            lbl3.Font = new Font("Segoe UI Semibold", 10, FontStyle.Bold);
+            lbl3.Text = "Menü Açıklama:";
+            lbl3.ForeColor = System.Drawing.Color.FromArgb(118, 128, 143);
+            lbl3.Visible = true;
+            lbl3.Location = new Point(10, 120);
+            lbl3.Size = new Size(120, 30);
+
+            pnlMenuEkle.Controls.Add(txtMenuAciklama);
+            txtMenuAciklama.Size = new System.Drawing.Size(240, 20);
+            txtMenuAciklama.BackColor = System.Drawing.Color.FromArgb(255, 255, 255, 255);
+            txtMenuAciklama.Font = new Font("Segoe UI Semibold", 9, FontStyle.Bold);
+            txtMenuAciklama.ForeColor = System.Drawing.Color.FromArgb(118, 128, 143);
+            txtMenuAciklama.Location = new System.Drawing.Point(130, 120);
+            txtMenuAciklama.Visible = true;
+            txtMenuAciklama.TextAlign = HorizontalAlignment.Center;
+            txtMenuAciklama.BorderStyle = BorderStyle.Fixed3D;
+
+            Button btnKaydet = new Button();
+            pnlMenuEkle.Controls.Add(btnKaydet);
+            btnKaydet.BackgroundImage = Properties.Resources.ButtonAra;
+            btnKaydet.FlatAppearance.BorderSize = 0;
+            btnKaydet.FlatStyle = FlatStyle.Flat;
+            btnKaydet.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            btnKaydet.ForeColor = Color.FromArgb(254, 255, 254);
+            btnKaydet.Location = new Point(350, 165);
+            btnKaydet.Padding = new Padding(0, 0, 0, 2);
+            btnKaydet.Size = new Size(75, 30);
+            btnKaydet.TabIndex = 6;
+            btnKaydet.Text = "Kaydet";
+            btnKaydet.UseVisualStyleBackColor = true;
+            btnKaydet.Click += btnYeniMenuKaydet_Clik;
+            
+
+            Button btnClose = new Button();
+            pnlMenuEkle.Controls.Add(btnClose);
+            btnClose.Size = new Size(24, 24);
+            btnClose.Location = new Point(435,1);
+            btnClose.FlatStyle = FlatStyle.Flat;
+            btnClose.FlatAppearance.BorderSize = 0;
+            btnClose.Text = "❌";
+            btnClose.ForeColor = Color.FromArgb(238, 0, 0);
+            btnClose.Font = new Font("", 10F);
+            btnClose.Click += btnClose_Clik;
         }
+
+        private void btnYeniMenuKaydet_Clik(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            bool kontrol = true;
+
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("SELECT *FROM MENULER", conn);
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                if (dr["isim"].ToString() == txtMenuAd.Text)
+                {
+                    kontrol = false;
+                    break;
+                }
+            }
+            conn.Close();dr.Close();
+
+            if(txtMenuAd.Text.Substring(0,5) == "Menu_" )
+                kontrol = false;
+
+            if (kontrol)
+            {
+                conn.Open();
+                cmd = new SqlCommand("CREATE TABLE " + txtMenuAd.Text + "(urunId int,isim nvarchar(50),fiyat int,aciklama text)",conn);
+                cmd.ExecuteNonQuery();
+
+                int kategoriId = 0;
+                cmd = new SqlCommand("SELECT *FROM MENULER", conn);
+                dr = cmd.ExecuteReader();
+                while(dr.Read())
+                { kategoriId++; }
+
+
+                cmd = new SqlCommand("insert into MENULER(kategoriId,isim,aciklama,aktiflik) values ("+kategoriId+",'"+txtMenuAd.Text+"','"+txtMenuAciklama.Text+"',1",conn);
+                cmd.ExecuteNonQuery();
+
+                MessageBox.Show("Menü başarılı bir şekilde eklenmiştir..", "Menü Ekleme");
+                conn.Close();
+            }
+            else
+                MessageBox.Show("Hatalı menü ad girişi tekrar deneyin","Uyarı");
+
+        }
+
+        private void btnClose_Clik(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            txtMenuAciklama.Clear();
+            txtMenuAd.Clear();
+            pnlMenuEkle.Controls.Clear();
+
+            panel4.Visible = true;
+            panel5.Visible = true;
+
+            
+
+        }
+
+
+
 
         private void btnMenuSil_Click(object sender, EventArgs e)
         {
