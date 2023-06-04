@@ -40,13 +40,17 @@
             btnMenu = new Button();
             btnMasa = new Button();
             panel5 = new Panel();
+            label4 = new Label();
+            label1 = new Label();
             label3 = new Label();
             panel4 = new Panel();
+            pnlMenu = new Panel();
             timerDate = new System.Windows.Forms.Timer(components);
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pctbxYEDLogo).BeginInit();
             panel2.SuspendLayout();
             panel5.SuspendLayout();
+            panel4.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -166,18 +170,42 @@
             // panel5
             // 
             panel5.BackColor = Color.FromArgb(248, 244, 244);
+            panel5.Controls.Add(label4);
+            panel5.Controls.Add(label1);
             panel5.Controls.Add(label3);
             panel5.Location = new Point(117, 50);
             panel5.Name = "panel5";
             panel5.Size = new Size(1775, 40);
             panel5.TabIndex = 6;
             // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label4.ForeColor = Color.FromArgb(123, 133, 147);
+            label4.Location = new Point(490, 10);
+            label4.Name = "label4";
+            label4.Size = new Size(121, 21);
+            label4.TabIndex = 3;
+            label4.Text = "Menü Açıklama";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.ForeColor = Color.FromArgb(123, 133, 147);
+            label1.Location = new Point(1460, 10);
+            label1.Name = "label1";
+            label1.Size = new Size(129, 21);
+            label1.TabIndex = 1;
+            label1.Text = "Menü Görüntüle";
+            // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
             label3.ForeColor = Color.FromArgb(123, 133, 147);
-            label3.Location = new Point(16, 10);
+            label3.Location = new Point(40, 10);
             label3.Name = "label3";
             label3.Size = new Size(71, 21);
             label3.TabIndex = 0;
@@ -187,10 +215,19 @@
             // 
             panel4.AutoScroll = true;
             panel4.BackColor = Color.FromArgb(254, 255, 254);
-            panel4.Location = new Point(117, 90);
+            panel4.Controls.Add(pnlMenu);
+            panel4.Location = new Point(116, 90);
             panel4.Name = "panel4";
             panel4.Size = new Size(1775, 785);
             panel4.TabIndex = 10;
+            // 
+            // pnlMenu
+            // 
+            pnlMenu.Location = new Point(422, 136);
+            pnlMenu.Name = "pnlMenu";
+            pnlMenu.Size = new Size(970, 500);
+            pnlMenu.TabIndex = 0;
+            pnlMenu.Visible = false;
             // 
             // timerDate
             // 
@@ -215,6 +252,7 @@
             panel2.ResumeLayout(false);
             panel5.ResumeLayout(false);
             panel5.PerformLayout();
+            panel4.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -234,5 +272,8 @@
         private Label label3;
         private Panel panel4;
         private System.Windows.Forms.Timer timerDate;
+        private Label label4;
+        private Label label1;
+        private Panel pnlMenu;
     }
 }

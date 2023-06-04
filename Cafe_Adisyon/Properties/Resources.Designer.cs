@@ -83,6 +83,26 @@ namespace Cafe_Adisyon.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap türünde yerelleştirilmiş bir kaynak arar.
         /// </summary>
+        internal static System.Drawing.Bitmap btnMenuGosterBeyaz {
+            get {
+                object obj = ResourceManager.GetObject("btnMenuGosterBeyaz", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap türünde yerelleştirilmiş bir kaynak arar.
+        /// </summary>
+        internal static System.Drawing.Bitmap btnMenuGosterGri {
+            get {
+                object obj = ResourceManager.GetObject("btnMenuGosterGri", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap türünde yerelleştirilmiş bir kaynak arar.
+        /// </summary>
         internal static System.Drawing.Bitmap butonKaydet {
             get {
                 object obj = ResourceManager.GetObject("butonKaydet", resourceCulture);

@@ -396,8 +396,9 @@ namespace Cafe_Adisyon
             conn.Close();
 
             cmbBxSiparisKategori.Location = new Point(178, 90);
-            cmbBxSiparisKategori.Size = new Size(124, 23);
+            cmbBxSiparisKategori.Size = new Size(140, 23);
             cmbBxSiparisKategori.TabIndex = 1;
+            cmbBxSiparisKategori.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
             cmbBxSiparisKategori.SelectedIndexChanged += cmbBxSiparisKategori_SelectedIndexChanged;
             //
             //
@@ -405,8 +406,9 @@ namespace Cafe_Adisyon
             pnlSiparis.Controls.Add(cmbBxSiparisUrun);
             cmbBxSiparisUrun.FormattingEnabled = true;
             cmbBxSiparisUrun.Location = new Point(178, 128);
-            cmbBxSiparisUrun.Size = new Size(124, 23);
+            cmbBxSiparisUrun.Size = new Size(140, 23);
             cmbBxSiparisUrun.TabIndex = 3;
+            cmbBxSiparisUrun.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
             cmbBxSiparisUrun.SelectedIndexChanged += cmbBxSiparisUrun_SelectedIndexChanged;
             //
             //
@@ -415,8 +417,9 @@ namespace Cafe_Adisyon
             cmbBxSiparisCarpan.FormattingEnabled = true;
             cmbBxSiparisCarpan.Items.AddRange(new object[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" });
             cmbBxSiparisCarpan.Location = new Point(178, 164);
-            cmbBxSiparisCarpan.Size = new Size(124, 23);
+            cmbBxSiparisCarpan.Size = new Size(140, 23);
             cmbBxSiparisCarpan.TabIndex = 8;
+            cmbBxSiparisCarpan.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
             cmbBxSiparisCarpan.SelectedIndexChanged += cmbBxSiparisCarpan_SelectedIndexChanged;
             //
             // Buttonlar
@@ -426,7 +429,7 @@ namespace Cafe_Adisyon
             btnSiparisTemizle.BackColor = Color.FromArgb(245, 171, 47);
             btnSiparisTemizle.FlatAppearance.BorderSize = 0;
             btnSiparisTemizle.FlatStyle = FlatStyle.Flat;
-            btnSiparisTemizle.Location = new Point(91, 313);
+            btnSiparisTemizle.Location = new Point(91, 290);
             btnSiparisTemizle.Size = new Size(87, 32);
             btnSiparisTemizle.TabIndex = 11;
             btnSiparisTemizle.UseVisualStyleBackColor = false;
@@ -439,7 +442,7 @@ namespace Cafe_Adisyon
             btnSiparisEkle.BackColor = Color.FromArgb(245, 171, 47);
             btnSiparisEkle.FlatAppearance.BorderSize = 0;
             btnSiparisEkle.FlatStyle = FlatStyle.Flat;
-            btnSiparisEkle.Location = new Point(215, 313);
+            btnSiparisEkle.Location = new Point(215, 290);
             btnSiparisEkle.Size = new Size(87, 32);
             btnSiparisEkle.TabIndex = 4;
             btnSiparisEkle.Text = "Ekle";
@@ -602,9 +605,10 @@ namespace Cafe_Adisyon
 
 
 
-
+                
                 lblSiparisEkleDurum.Visible = true;
                 conn.Close();
+                
             }
             else
             {
@@ -619,6 +623,7 @@ namespace Cafe_Adisyon
         /// <param name="e"></param>
         private void btnSiparisEkleClose_Click(object sender, EventArgs e)
         {
+            MasalariBastir();
             pnlSiparis.Controls.Clear();
             pnlSiparis.Visible = false;
             lblSiparisEkleDurum.Visible = false;
