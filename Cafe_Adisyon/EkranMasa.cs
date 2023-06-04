@@ -57,7 +57,9 @@ namespace Cafe_Adisyon
 
         private void btnGuncelleme_Click(object sender, EventArgs e)
         {
-
+            EkranGuncelleme nEkranGuncelleme = new EkranGuncelleme();
+            nEkranGuncelleme.Show();
+            this.Hide();
         }
 
         private void btnStok_Click(object sender, EventArgs e)

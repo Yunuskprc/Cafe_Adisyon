@@ -130,6 +130,7 @@
             btnGuncelleme.Size = new Size(100, 100);
             btnGuncelleme.TabIndex = 5;
             btnGuncelleme.UseVisualStyleBackColor = true;
+            btnGuncelleme.Click += btnGuncelleme_Click;
             // 
             // btnGrafik
             // 

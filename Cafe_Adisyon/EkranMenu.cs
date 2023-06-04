@@ -263,5 +263,12 @@ namespace Cafe_Adisyon
             pnlMenu.Controls.Clear();
             pnlMenu.Visible = false;
         }
+
+        private void btnGuncelleme_Click(object sender, EventArgs e)
+        {
+            EkranGuncelleme nekranGuncelleme = new EkranGuncelleme();
+            nekranGuncelleme.Show();
+            this.Hide();
+        }
     }
 }
