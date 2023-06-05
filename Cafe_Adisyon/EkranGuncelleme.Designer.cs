@@ -48,6 +48,7 @@
             cmbBxKategori = new ComboBox();
             label1 = new Label();
             panel5 = new Panel();
+            label6 = new Label();
             label5 = new Label();
             label4 = new Label();
             label3 = new Label();
@@ -282,6 +283,7 @@
             // panel5
             // 
             panel5.BackColor = Color.FromArgb(248, 244, 244);
+            panel5.Controls.Add(label6);
             panel5.Controls.Add(label5);
             panel5.Controls.Add(label4);
             panel5.Controls.Add(label3);
@@ -289,6 +291,15 @@
             panel5.Name = "panel5";
             panel5.Size = new Size(1775, 40);
             panel5.TabIndex = 10;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(675, 38);
+            label6.Name = "label6";
+            label6.Size = new Size(38, 15);
+            label6.TabIndex = 3;
+            label6.Text = "label6";
             // 
             // label5
             // 
@@ -405,5 +416,6 @@
         private Panel panel4;
         private Button btnYeniYemekEkle;
         private System.Windows.Forms.Timer timer1;
+        private Label label6;
     }
 }

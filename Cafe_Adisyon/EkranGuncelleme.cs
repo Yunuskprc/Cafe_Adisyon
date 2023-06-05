@@ -424,11 +424,11 @@ namespace Cafe_Adisyon
             panel4.Visible = false;
             panel5.Visible = false;
 
-            
+
             Controls.Add(pnlMenuEkle);
             pnlMenuEkle.Size = new Size(460, 220);
             pnlMenuEkle.Location = new Point(760, 360);
-            pnlMenuEkle.BackColor = Color.FromArgb(254,254,255);
+            pnlMenuEkle.BackColor = Color.FromArgb(254, 254, 255);
 
             Label lbl1 = new Label();
             pnlMenuEkle.Controls.Add(lbl1);
@@ -492,12 +492,12 @@ namespace Cafe_Adisyon
             btnKaydet.Text = "Kaydet";
             btnKaydet.UseVisualStyleBackColor = true;
             btnKaydet.Click += btnYeniMenuKaydet_Clik;
-            
+
 
             Button btnClose = new Button();
             pnlMenuEkle.Controls.Add(btnClose);
             btnClose.Size = new Size(24, 24);
-            btnClose.Location = new Point(435,1);
+            btnClose.Location = new Point(435, 1);
             btnClose.FlatStyle = FlatStyle.Flat;
             btnClose.FlatAppearance.BorderSize = 0;
             btnClose.Text = "❌";
@@ -522,32 +522,48 @@ namespace Cafe_Adisyon
                     break;
                 }
             }
-            conn.Close();dr.Close();
+            conn.Close(); dr.Close();
 
-            if(txtMenuAd.Text.Substring(0,5) == "Menu_" )
+            for(int i = 0;i<txtMenuAd.Text.Length;i++)
+            {
+                if (txtMenuAd.Text[i] == ' ')
+                {
+                    kontrol |= false;
+                    break;
+                }
+            }
+
+            if (txtMenuAd.Text.Length < 5)
+            {
                 kontrol = false;
+            }
+            else
+            {
+                if (txtMenuAd.Text.Substring(0, 5) != "Menu_")
+                    kontrol = false;
+            }
 
             if (kontrol)
             {
                 conn.Open();
-                cmd = new SqlCommand("CREATE TABLE " + txtMenuAd.Text + "(urunId int,isim nvarchar(50),fiyat int,aciklama text)",conn);
+                cmd = new SqlCommand("CREATE TABLE " + txtMenuAd.Text + "(urunId int,isim nvarchar(50),fiyat int,aciklama text)", conn);
                 cmd.ExecuteNonQuery();
 
                 int kategoriId = 0;
-                cmd = new SqlCommand("SELECT *FROM MENULER", conn);
+                cmd = new SqlCommand("SELECT *FROM MENULER ORDER BY kategoriId", conn);
                 dr = cmd.ExecuteReader();
-                while(dr.Read())
-                { kategoriId++; }
-
-
-                cmd = new SqlCommand("insert into MENULER(kategoriId,isim,aciklama,aktiflik) values ("+kategoriId+",'"+txtMenuAd.Text+"','"+txtMenuAciklama.Text+"',1",conn);
+                while (dr.Read())
+                { kategoriId = Int16.Parse(dr["kategoriId"].ToString()); }
+                kategoriId++;
+                dr.Close();
+                cmd = new SqlCommand("insert into MENULER(kategoriId,isim,aciklama,aktiflik) values (" + kategoriId + ",'" + txtMenuAd.Text + "','" + txtMenuAciklama.Text + "'," + 1 + ")", conn);
                 cmd.ExecuteNonQuery();
 
                 MessageBox.Show("Menü başarılı bir şekilde eklenmiştir..", "Menü Ekleme");
                 conn.Close();
             }
             else
-                MessageBox.Show("Hatalı menü ad girişi tekrar deneyin","Uyarı");
+                MessageBox.Show("Hatalı menü ad girişi tekrar deneyin", "Uyarı");
 
         }
 
@@ -560,16 +576,157 @@ namespace Cafe_Adisyon
 
             panel4.Visible = true;
             panel5.Visible = true;
-
-            
-
+            EkranGuncelleme nEkranGuncelleme = new EkranGuncelleme();
+            nEkranGuncelleme.Show();
+            this.Hide();
         }
 
 
 
-
+        Panel pnlMenuSil = new Panel();
         private void btnMenuSil_Click(object sender, EventArgs e)
         {
+            panel4.Controls.Clear();
+            panel4.Visible = false;
+            panel5.Visible = false;
+
+
+            //Menu Sil Paneli
+            pnlMenuSil.BackColor = Color.FromArgb(254, 255, 254);
+            Controls.Add(pnlMenuSil);
+            pnlMenuSil.Location = new Point(650, 350);
+            pnlMenuSil.Size = new Size(700, 416);
+            pnlMenuSil.TabIndex = 3;
+            pnlMenuSil.AutoScroll = true;
+            //
+            //Menu Sil paneli iç başlık paneli
+            //
+            Panel pnl2 = new Panel();
+            pnl2.BackColor = Color.FromArgb(248, 244, 244);
+            pnlMenuSil.Controls.Add(pnl2);
+            pnl2.Location = new Point(0, 0);
+            pnl2.Size = new Size(700, 40);
+            pnl2.TabIndex = 3;
+            //
+            //
+            Label lbl1 = new Label();
+            pnl2.Controls.Add(lbl1);
+            lbl1.AutoSize = true;
+            lbl1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lbl1.ForeColor = Color.FromArgb(123, 133, 147);
+            lbl1.Location = new Point(16, 10);
+            lbl1.Size = new Size(77, 21);
+            lbl1.TabIndex = 0;
+            lbl1.Text = "Menü Ad";
+            //
+            //
+            Label lbl2 = new Label();
+            pnl2.Controls.Add(lbl2);
+            lbl2.AutoSize = true;
+            lbl2.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lbl2.ForeColor = Color.FromArgb(123, 133, 147);
+            lbl2.Location = new Point(242, 10);
+            lbl2.Size = new Size(121, 21);
+            lbl2.TabIndex = 2;
+            lbl2.Text = "Menü Açıklama";
+            //
+            // paneli kapatan buton.
+            //
+            Button btnMenuSilClose = new Button();
+            pnl2.Controls.Add(btnMenuSilClose);
+            btnMenuSilClose.FlatAppearance.BorderSize = 0;
+            btnMenuSilClose.FlatStyle = FlatStyle.Flat;
+            btnMenuSilClose.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            btnMenuSilClose.ForeColor = Color.FromArgb(238, 0, 0);
+            btnMenuSilClose.Location = new Point(660, 3);
+            btnMenuSilClose.Size = new Size(22, 28);
+            btnMenuSilClose.TabIndex = 3;
+            btnMenuSilClose.Text = "❌";
+            btnMenuSilClose.UseVisualStyleBackColor = true;
+            btnMenuSilClose.Click += btnMenuSilClose_Clik;
+
+
+            int y = 56;
+
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("SELECT *FROM MENULER", conn);
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                Label lblMenuAd = new Label();
+                pnlMenuSil.Controls.Add(lblMenuAd);
+                lblMenuAd.AutoSize = true;
+                lblMenuAd.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+                lblMenuAd.Location = new Point(3, y);
+                lblMenuAd.Size = new Size(116, 17);
+                lblMenuAd.TabIndex = 1;
+                lblMenuAd.Text = dr["isim"].ToString();
+                //
+                //
+                Label lblMenuAciklama = new Label();
+                pnlMenuSil.Controls.Add(lblMenuAciklama);
+                lblMenuAciklama.AutoEllipsis = true;
+                lblMenuAciklama.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+                lblMenuAciklama.Location = new Point(227, y);
+                lblMenuAciklama.Size = new Size(116, 17);
+                lblMenuAciklama.TabIndex = 7;
+                lblMenuAciklama.Text = dr["aciklama"].ToString();
+                //
+                //
+                Button btnPnlMenuSil = new Button();
+                pnlMenuSil.Controls.Add(btnPnlMenuSil);
+                btnPnlMenuSil.FlatAppearance.BorderSize = 0;
+                btnPnlMenuSil.FlatStyle = FlatStyle.Flat;
+                btnPnlMenuSil.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+                btnPnlMenuSil.ForeColor = Color.Red;
+                btnPnlMenuSil.Location = new Point(551, y - 10);
+                btnPnlMenuSil.Size = new Size(66, 29);
+                btnPnlMenuSil.TabIndex = 4;
+                btnPnlMenuSil.Text = "Sil";
+                btnPnlMenuSil.UseVisualStyleBackColor = true;
+                btnPnlMenuSil.Click += btnPnlMenuSil_Clik;
+                btnPnlMenuSil.Name = dr["isim"].ToString();
+                y += 39;
+            }
+            conn.Close();
+
+        }
+    
+        
+        private void btnPnlMenuSil_Clik(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+
+            string message = "Menüyü silmek istediğinize emin misiniz?";
+            string title = "Menü Sil";
+            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+            DialogResult result = MessageBox.Show(message, title, buttons);
+            if (result == DialogResult.Yes)
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("DELETE FROM MENULER WHERE isim='" + btn.Name+"'", conn);
+                cmd.ExecuteNonQuery();
+
+                cmd = new SqlCommand("DROP TABLE " + btn.Name, conn);
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Menü başarılı bir şekilde silindi..", "Menü Sil");
+                conn.Close();
+                pnlMenuSil.Controls.Clear();
+                btnMenuSil_Click(sender, e);
+            }
+        }
+
+        private void btnMenuSilClose_Clik(Object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            pnlMenuSil.Controls.Clear();
+            panel4.Controls.Clear();
+            panel4.Visible = true;
+            panel5.Visible = true;
+
+            EkranGuncelleme nEkranGuncelleme = new EkranGuncelleme();
+            nEkranGuncelleme.Show();
+            this.Hide();
 
         }
     }
