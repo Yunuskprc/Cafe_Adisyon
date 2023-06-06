@@ -854,13 +854,21 @@ namespace Cafe_Adisyon
         /// </summary>
         private void fisOlustur()
         {
-            int count = RowsCount("SatisTakip");
+            // adisyon noyu count değişkenine çeker
+            int count=0;
+            conn.Open();
+            SqlCommand cmdAdisyonNo = new SqlCommand("SELECT *FROM AdisyonTakip ORDER BY adisyonNo",conn);
+            SqlDataReader drAdisyonNo = cmdAdisyonNo.ExecuteReader();
+            while(drAdisyonNo.Read())
+            {count = Int16.Parse(drAdisyonNo["adisyonNo"].ToString());}
+            conn.Close(); drAdisyonNo.Close();
+
             count++;
             string tarih = dt.Year + "-" + dt.Month + "-" + dt.Day;
             int fiyat = 0;
 
+            // Adisyon No Tablosuna sipariş ekleme işlemi yapılıyor
             conn.Open();
-
             SqlCommand cmd = new SqlCommand("SELECT *FROM MASALAR WHERE masaId=" + lblMasaAd.Text.Substring(4), conn);
             SqlDataReader dr = cmd.ExecuteReader();
             if (dr.Read())
@@ -869,10 +877,13 @@ namespace Cafe_Adisyon
             }
             dr.Close();
 
-            cmd = new SqlCommand("insert into SatisTakip(adisyonNo,tarih,fiyat) values (" + count + ",'" + tarih + "'," + fiyat + ")", conn);
+            cmd = new SqlCommand("insert into AdisyonTakip(adisyonNo,tarih,fiyat) values (" + count + ",'" + tarih + "'," + fiyat + ")", conn);
             cmd.ExecuteNonQuery();
             conn.Close();
 
+            //Gunluk Satiş takip tablosuna kayıt işlemi:
+            GunlukSatisTakip nGunSatTak = new GunlukSatisTakip();
+            nGunSatTak.TabloDuzenle(tarih,fiyat);
             //
             // veritabanında SatisTakip Tablosuna ekleme yapıldı. Fiş oluşturulup Masa değerleri sıfırlanacak.
             //
