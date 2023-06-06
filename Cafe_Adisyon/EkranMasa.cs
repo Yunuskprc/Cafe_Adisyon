@@ -69,7 +69,9 @@ namespace Cafe_Adisyon
 
         private void btnGrafik_Click(object sender, EventArgs e)
         {
-
+            EkranSatisTakip nEkranSatisTakip = new EkranSatisTakip();
+            nEkranSatisTakip.Show();
+            this.Hide();
         }
 
         private void TimerDate_Tick(object sender, EventArgs e)

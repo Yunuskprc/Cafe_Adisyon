@@ -66,7 +66,7 @@ namespace Adisyon_Sistemi
             if (BilgiKontrol(DogumTarih, DogumTarih.Length, "DogumTarih") && BilgiKontrol(TC, TC.Length, "TC") && BilgiKontrol(TelNo, TelNo.Length, "TelNo") && BilgiKontrol(Cinsiyet, Cinsiyet.Length, "Cinsiyet") && BilgiKontrol(Kadi, Kadi.Length, "Kadi") && BilgiKontrol(Sifre, Sifre.Length, "Sifre"))
             {
                 String Sorgu = "SELECT *FROM Personel ";
-                SqlConnection conn = new SqlConnection("Server=localhost\\SQLEXPRESS;Database=Restaurant_Otomasyon;Trusted_Connection=True;");
+                SqlConnection conn = new SqlConnection("Server=localhost\\SQLEXPRESS;Database=Cafe_Adisyon;Trusted_Connection=True;");
                 SqlCommand comm = new SqlCommand(Sorgu, conn);
 
                 if (Sifre == SifreT)
@@ -83,9 +83,9 @@ namespace Adisyon_Sistemi
                 SqlDataReader dr = comm.ExecuteReader();
                 while (dr.Read())
                 {
-                    perosnelId = Int16.Parse(dr["PersonelId"].ToString());
+                    perosnelId = Int16.Parse(dr["personelId"].ToString());
 
-                    if (dr["KullaniciAdi"].Equals(Kadi))
+                    if (dr["kullaniciAdi"].Equals(Kadi))
                     {
                         kontrol = false;
                         break;
@@ -99,7 +99,7 @@ namespace Adisyon_Sistemi
                         }
                         else
                         {
-                            if (TC.Equals(dr["TC"]))
+                            if (TC.Equals(dr["tc"]))
                             {
                                 kontrol = false;
                                 break;
@@ -139,7 +139,7 @@ namespace Adisyon_Sistemi
 
             SqlConnection conn = new SqlConnection("Server=localhost\\SQLEXPRESS;Database=Restaurant_Otomasyon;Trusted_Connection=True;");
             conn.Open();
-            SqlCommand comm = new SqlCommand("insert into Personel (PersonelId,KullaniciAdi,Sifre,Ad,Soyad,telNo,TC,mail,cinsiyet,dogumTarih) values ('" + (perosnelId + 1) + "','" + Kadi + "','" + ComputeSha256Hash(Sifre) + "','" + ad + "','" + soyad + "','" + TelNo + "','" + TC + "','" + Mail + "','" + cinsiyet + "','" + DogumTarih + "')", conn); // eksik
+            SqlCommand comm = new SqlCommand("insert into Personel (personelId,kullaniciAdi,sifre,ad,soyad,telNo,tc,mail,cinsiyet,dogumTarih) values ('" + (perosnelId + 1) + "','" + Kadi + "','" + ComputeSha256Hash(Sifre) + "','" + ad + "','" + soyad + "','" + TelNo + "','" + TC + "','" + Mail + "','" + cinsiyet + "','" + DogumTarih + "')", conn);
             comm.ExecuteNonQuery();
             conn.Close();
         }

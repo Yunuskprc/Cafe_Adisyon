@@ -19,16 +19,15 @@ namespace Adisyon_Sistemi
             String sifre = ComputeSha256Hash(textBox2.Text);
 
 
-            String Sorgu = "SELECT *FROM Personel where KullaniciAdi='" + kadi + "' AND Sifre='" + sifre + "'";
+            String Sorgu = "SELECT *FROM Personel WHERE kullaniciAdi='" + kadi + "' AND sifre='" + sifre + "'";
 
-            SqlConnection conn = new SqlConnection("Server=localhost\\SQLEXPRESS;Database=Restaurant_Otomasyon;Trusted_Connection=True;");
+            SqlConnection conn = new SqlConnection("Server=localhost\\SQLEXPRESS;Database=Cafe_Adisyon;Trusted_Connection=True;");
             SqlCommand comm = new SqlCommand(Sorgu, conn);
 
             conn.Open();
             SqlDataReader rd = comm.ExecuteReader();
             if (rd.Read())
             {
-                MessageBox.Show("Giriþ Baþarýlý..");
                 EkranMasa nEkranMasa = new EkranMasa();
                 nEkranMasa.Show();
                 this.Hide();

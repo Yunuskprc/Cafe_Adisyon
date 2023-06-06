@@ -524,7 +524,7 @@ namespace Cafe_Adisyon
             }
             conn.Close(); dr.Close();
 
-            for(int i = 0;i<txtMenuAd.Text.Length;i++)
+            for (int i = 0; i < txtMenuAd.Text.Length; i++)
             {
                 if (txtMenuAd.Text[i] == ' ')
                 {
@@ -691,8 +691,8 @@ namespace Cafe_Adisyon
             conn.Close();
 
         }
-    
-        
+
+
         private void btnPnlMenuSil_Clik(object sender, EventArgs e)
         {
             Button btn = sender as Button;
@@ -704,7 +704,7 @@ namespace Cafe_Adisyon
             if (result == DialogResult.Yes)
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("DELETE FROM MENULER WHERE isim='" + btn.Name+"'", conn);
+                SqlCommand cmd = new SqlCommand("DELETE FROM MENULER WHERE isim='" + btn.Name + "'", conn);
                 cmd.ExecuteNonQuery();
 
                 cmd = new SqlCommand("DROP TABLE " + btn.Name, conn);
@@ -728,6 +728,13 @@ namespace Cafe_Adisyon
             nEkranGuncelleme.Show();
             this.Hide();
 
+        }
+
+        private void btnGrafik_Click(object sender, EventArgs e)
+        {
+            EkranSatisTakip nEkranSatisTakip = new EkranSatisTakip();
+            nEkranSatisTakip.Show();
+            this.Hide();
         }
     }
 }

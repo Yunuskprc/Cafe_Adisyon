@@ -110,6 +110,7 @@
             btnGrafik.Size = new Size(100, 100);
             btnGrafik.TabIndex = 4;
             btnGrafik.UseVisualStyleBackColor = true;
+            btnGrafik.Click += btnGrafik_Click;
             // 
             // btnMenu
             // 

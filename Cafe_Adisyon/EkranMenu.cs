@@ -270,5 +270,12 @@ namespace Cafe_Adisyon
             nekranGuncelleme.Show();
             this.Hide();
         }
+
+        private void btnGrafik_Click(object sender, EventArgs e)
+        {
+            EkranSatisTakip nEkranSatisTakip = new EkranSatisTakip();
+            nEkranSatisTakip.Show();
+            this.Hide();
+        }
     }
 }
