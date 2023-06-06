@@ -203,10 +203,10 @@ namespace Cafe_Adisyon
             {
                 int count = RowsCount("MASALAR") + 1;
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("CREATE TABLE MASA"+count+"(masaId int,kategoriId int,isim nvarchar(50),fiyat int,siparisSayisi int)",conn);
+                SqlCommand cmd = new SqlCommand("CREATE TABLE MASA" + count + "(masaId int,kategoriId int,isim nvarchar(50),fiyat int,siparisSayisi int)", conn);
                 cmd.ExecuteNonQuery();
                 // Tablo oluşturuldu Masalar tablosunda göstermek kaldı.
-                cmd = new SqlCommand("insert into MASALAR(masaId,masaDoluluk,masaOturmaSuresi,fiyat) values ("+count+",0,0,0)",conn);
+                cmd = new SqlCommand("insert into MASALAR(masaId,masaDoluluk,masaOturmaSuresi,fiyat) values (" + count + ",0,0,0)", conn);
                 cmd.ExecuteNonQuery();
                 conn.Close();
                 mesaj = "Masa Eklendi...";
@@ -220,7 +220,7 @@ namespace Cafe_Adisyon
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnMasaSil_Clik(object sender,EventArgs e)
+        private void btnMasaSil_Clik(object sender, EventArgs e)
         {
             Button btn = sender as Button;
             string mesaj = "Masayı kaldırmak istiyor musunuz?";
@@ -233,7 +233,7 @@ namespace Cafe_Adisyon
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("DROP TABLE MASA" + count, conn);
                 cmd.ExecuteNonQuery();
-                cmd = new SqlCommand("DELETE FROM MASALAR WHERE masaId="+count, conn);
+                cmd = new SqlCommand("DELETE FROM MASALAR WHERE masaId=" + count, conn);
                 cmd.ExecuteNonQuery();
                 mesaj = "Masa Kaldırıldı...";
                 MessageBox.Show(mesaj, baslik);
@@ -609,10 +609,10 @@ namespace Cafe_Adisyon
 
 
 
-                
+
                 lblSiparisEkleDurum.Visible = true;
                 conn.Close();
-                
+
             }
             else
             {
@@ -855,12 +855,13 @@ namespace Cafe_Adisyon
         private void fisOlustur()
         {
             // adisyon noyu count değişkenine çeker
-            int count=0;
+            int count = 0;
+            int adet = 0;
             conn.Open();
-            SqlCommand cmdAdisyonNo = new SqlCommand("SELECT *FROM AdisyonTakip ORDER BY adisyonNo",conn);
+            SqlCommand cmdAdisyonNo = new SqlCommand("SELECT *FROM AdisyonTakip ORDER BY adisyonNo", conn);
             SqlDataReader drAdisyonNo = cmdAdisyonNo.ExecuteReader();
-            while(drAdisyonNo.Read())
-            {count = Int16.Parse(drAdisyonNo["adisyonNo"].ToString());}
+            while (drAdisyonNo.Read())
+            { count = Int16.Parse(drAdisyonNo["adisyonNo"].ToString()); }
             conn.Close(); drAdisyonNo.Close();
 
             count++;
@@ -881,9 +882,18 @@ namespace Cafe_Adisyon
             cmd.ExecuteNonQuery();
             conn.Close();
 
+
+            conn.Open();
+            cmd = new SqlCommand("SELECT *FROM AdisyonTakip WHERE tarih='" + tarih + "'", conn);
+            dr = cmd.ExecuteReader();
+            if (dr.Read())
+            { adet++; }
+            conn.Close();
+
+
             //Gunluk Satiş takip tablosuna kayıt işlemi:
             GunlukSatisTakip nGunSatTak = new GunlukSatisTakip();
-            nGunSatTak.TabloDuzenle(tarih,fiyat);
+            nGunSatTak.TabloDuzenle(tarih, fiyat, adet);
             //
             // veritabanında SatisTakip Tablosuna ekleme yapıldı. Fiş oluşturulup Masa değerleri sıfırlanacak.
             //
@@ -1101,7 +1111,7 @@ namespace Cafe_Adisyon
             cmd.ExecuteNonQuery();
 
             conn.Close();
-            
+
         }
 
         /// <summary>

@@ -16,34 +16,37 @@ namespace Cafe_Adisyon
         /// </summary>
         /// <param name="tarih">Anlık Tarih bilgisi</param>
         /// <param name="fiyat">İşlem yapılacak siparişin fiyat bilgisi</param>
-        public void TabloDuzenle(string tarih, int fiyat)
+        public void TabloDuzenle(string tarih, int fiyat,int adet)
         {
             conn.Open();
             SqlCommand cmd = new SqlCommand("SELECT *FROM GunlukSatisTakip", conn);
             SqlDataReader dr = cmd.ExecuteReader();
             bool kontrol = false;
-            int temp = 0;
+            int tempFiyat = 0;
+            int tempAdet = 0;
 
             while (dr.Read())
             {
                 if (dr["tarih"].ToString() == tarih)
                 {
                     kontrol = true;
-                    temp = Int16.Parse(dr["fiyat"].ToString());
+                    tempFiyat = Int16.Parse(dr["fiyat"].ToString());
+                    tempAdet = Int16.Parse(dr["SatisSayisi"].ToString());
                     break;
                 }
             }
             dr.Close();
-            fiyat += temp;
+            fiyat += tempFiyat;
+            tempAdet++;
 
             if(kontrol)
             {
-                cmd = new SqlCommand("update GunlukSatisTakip set fiyat=" + fiyat + " WHERE tarih='" + tarih + "'",conn);
+                cmd = new SqlCommand("update GunlukSatisTakip set fiyat=" + fiyat + ", SatisSayisi=" + tempAdet + " WHERE tarih='" + tarih + "'",conn);
                 cmd.ExecuteNonQuery();
             }
             else
             {
-                cmd = new SqlCommand("insert into GunlukSatisTakip (tarih,fiyat) values ('" +  tarih + "'," + fiyat + ")",conn);
+                cmd = new SqlCommand("insert into GunlukSatisTakip (tarih,SatisSayisi,fiyat) values ('" +  tarih + "'," + adet + "," + fiyat + ")",conn);
                 cmd.ExecuteNonQuery();
             }
 
