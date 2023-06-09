@@ -166,6 +166,9 @@
   <data name="closeButton1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\closeButton1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="deneme" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\deneme.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="girisButon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\girisButon.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -249,5 +252,8 @@
   </data>
   <data name="YEDLogo30px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\YEDLogo30px.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_10pxElips" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\10pxElips.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

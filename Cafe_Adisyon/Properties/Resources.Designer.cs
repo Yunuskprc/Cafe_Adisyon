@@ -63,6 +63,16 @@ namespace Cafe_Adisyon.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap türünde yerelleştirilmiş bir kaynak arar.
         /// </summary>
+        internal static System.Drawing.Bitmap _10pxElips {
+            get {
+                object obj = ResourceManager.GetObject("_10pxElips", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap türünde yerelleştirilmiş bir kaynak arar.
+        /// </summary>
         internal static System.Drawing.Bitmap btnMasaEkle {
             get {
                 object obj = ResourceManager.GetObject("btnMasaEkle", resourceCulture);
@@ -216,6 +226,16 @@ namespace Cafe_Adisyon.Properties {
         internal static System.Drawing.Bitmap closeButton1 {
             get {
                 object obj = ResourceManager.GetObject("closeButton1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap türünde yerelleştirilmiş bir kaynak arar.
+        /// </summary>
+        internal static System.Drawing.Bitmap deneme {
+            get {
+                object obj = ResourceManager.GetObject("deneme", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
