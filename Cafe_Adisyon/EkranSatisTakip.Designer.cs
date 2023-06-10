@@ -40,6 +40,8 @@
             btnMenu = new Button();
             btnMasa = new Button();
             timer1 = new System.Windows.Forms.Timer(components);
+            btnAyrintiListe = new Button();
+            btnKayitTemizle = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pctbxYEDLogo).BeginInit();
             panel2.SuspendLayout();
@@ -166,11 +168,41 @@
             timer1.Interval = 1000;
             timer1.Tick += timer1_Tick;
             // 
+            // btnAyrintiListe
+            // 
+            btnAyrintiListe.FlatAppearance.BorderColor = Color.FromArgb(26, 24, 51);
+            btnAyrintiListe.FlatStyle = FlatStyle.Flat;
+            btnAyrintiListe.Font = new Font("Segoe UI Symbol", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnAyrintiListe.ForeColor = Color.FromArgb(26, 24, 51);
+            btnAyrintiListe.Location = new Point(1542, 962);
+            btnAyrintiListe.Name = "btnAyrintiListe";
+            btnAyrintiListe.Size = new Size(150, 40);
+            btnAyrintiListe.TabIndex = 10;
+            btnAyrintiListe.Text = "Ayrıntılı Liste";
+            btnAyrintiListe.UseVisualStyleBackColor = true;
+            btnAyrintiListe.Click += btnAyrintiListe_Click;
+            // 
+            // btnKayitTemizle
+            // 
+            btnKayitTemizle.FlatAppearance.BorderColor = Color.FromArgb(26, 24, 51);
+            btnKayitTemizle.FlatStyle = FlatStyle.Flat;
+            btnKayitTemizle.Font = new Font("Segoe UI Symbol", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnKayitTemizle.ForeColor = Color.FromArgb(26, 24, 51);
+            btnKayitTemizle.Location = new Point(1714, 962);
+            btnKayitTemizle.Name = "btnKayitTemizle";
+            btnKayitTemizle.Size = new Size(150, 40);
+            btnKayitTemizle.TabIndex = 11;
+            btnKayitTemizle.Text = "Kayıtları Temizle";
+            btnKayitTemizle.UseVisualStyleBackColor = true;
+            btnKayitTemizle.Click += btnKayitTemizle_Click;
+            // 
             // EkranSatisTakip
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1904, 1041);
+            Controls.Add(btnKayitTemizle);
+            Controls.Add(btnAyrintiListe);
             Controls.Add(panel2);
             Controls.Add(panel1);
             Name = "EkranSatisTakip";
@@ -196,5 +228,7 @@
         private Button btnMenu;
         private Button btnMasa;
         private System.Windows.Forms.Timer timer1;
+        private Button btnAyrintiListe;
+        private Button btnKayitTemizle;
     }
 }
