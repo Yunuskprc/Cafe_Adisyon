@@ -16,7 +16,7 @@ namespace Cafe_Adisyon
         /// </summary>
         /// <param name="tarih">Anlık Tarih bilgisi</param>
         /// <param name="fiyat">İşlem yapılacak siparişin fiyat bilgisi</param>
-        public void TabloDuzenle(string tarih, int fiyat,int adet)
+        public void TabloDuzenle(int yil, int ay, int gun, int fiyat,int adet)
         {
             conn.Open();
             SqlCommand cmd = new SqlCommand("SELECT *FROM GunlukSatisTakip", conn);
@@ -27,7 +27,7 @@ namespace Cafe_Adisyon
 
             while (dr.Read())
             {
-                if (dr["tarih"].ToString() == tarih)
+                if (Int16.Parse(dr["yil"].ToString()) == yil  &&  Int16.Parse(dr["ay"].ToString()) == ay  &&  Int16.Parse(dr["gun"].ToString()) == gun)
                 {
                     kontrol = true;
                     tempFiyat = Int16.Parse(dr["fiyat"].ToString());
@@ -41,12 +41,12 @@ namespace Cafe_Adisyon
 
             if(kontrol)
             {
-                cmd = new SqlCommand("update GunlukSatisTakip set fiyat=" + fiyat + ", SatisSayisi=" + tempAdet + " WHERE tarih='" + tarih + "'",conn);
+                cmd = new SqlCommand("update GunlukSatisTakip set fiyat=" + fiyat + ", SatisSayisi=" + tempAdet + " WHERE yil=" + yil +" AND ay="+ay + " AND gun="+gun,conn);
                 cmd.ExecuteNonQuery();
             }
             else
             {
-                cmd = new SqlCommand("insert into GunlukSatisTakip (tarih,SatisSayisi,fiyat) values ('" +  tarih + "'," + adet + "," + fiyat + ")",conn);
+                cmd = new SqlCommand("insert into GunlukSatisTakip (yil,ay,gun,SatisSayisi,fiyat) values ("+yil+"," +ay +"," + gun +"," + adet + "," + fiyat + ")",conn);
                 cmd.ExecuteNonQuery();
             }
 

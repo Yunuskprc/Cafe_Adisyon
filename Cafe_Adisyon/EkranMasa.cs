@@ -20,11 +20,7 @@ namespace Cafe_Adisyon
         {
             InitializeComponent();
         }
-        // to do -> masa rengi sorununu çözümü ✓✓
-        // to do -> siparis ekleme sayfası kapatıldıktan sonra sol sekmedeki masa bilgileri(yapıldı) ve siparis bilgilerini gösterecek metot. ✓✓
-        // to do -> sol alt ekranda ödeme işlemleri ✓✓
-        // to do -> fiş yazdırma ✓✓
-        // to do -> masa ekleme çıkarma ✓✓
+
 
         SqlConnection conn = new SqlConnection("Server=localhost\\SQLEXPRESS;Database=Cafe_Adisyon;Trusted_Connection=True;");
         DateTime dt = DateTime.Now;
@@ -497,6 +493,8 @@ namespace Cafe_Adisyon
         }
 
 
+
+
         /// <summary>
         /// Sipariş verme panelinde ki comboBoxların methodudur.Kategoriye göre ürünleri diğer combobox a taşır.
         /// </summary>
@@ -865,7 +863,7 @@ namespace Cafe_Adisyon
             conn.Close(); drAdisyonNo.Close();
 
             count++;
-            string tarih = dt.Year + "-" + dt.Month + "-" + dt.Day;
+            int yil = dt.Year, ay = dt.Month, gun = dt.Day;
             int fiyat = 0;
 
             // Adisyon No Tablosuna sipariş ekleme işlemi yapılıyor
@@ -878,13 +876,13 @@ namespace Cafe_Adisyon
             }
             dr.Close();
 
-            cmd = new SqlCommand("insert into AdisyonTakip(adisyonNo,tarih,fiyat) values (" + count + ",'" + tarih + "'," + fiyat + ")", conn);
+            cmd = new SqlCommand("insert into AdisyonTakip(yil,ay,gun,adisyonNo,fiyat) values ("+ yil +","+ ay +","+ gun +","+ count +","+ fiyat +")", conn);
             cmd.ExecuteNonQuery();
             conn.Close();
 
 
             conn.Open();
-            cmd = new SqlCommand("SELECT *FROM AdisyonTakip WHERE tarih='" + tarih + "'", conn);
+            cmd = new SqlCommand("SELECT *FROM AdisyonTakip WHERE yil="+ yil +" AND ay="+ay +" AND gun="+gun, conn);
             dr = cmd.ExecuteReader();
             if (dr.Read())
             { adet++; }
@@ -893,7 +891,7 @@ namespace Cafe_Adisyon
 
             //Gunluk Satiş takip tablosuna kayıt işlemi:
             GunlukSatisTakip nGunSatTak = new GunlukSatisTakip();
-            nGunSatTak.TabloDuzenle(tarih, fiyat, adet);
+            nGunSatTak.TabloDuzenle(yil,ay,gun,fiyat,adet);
             //
             // veritabanında SatisTakip Tablosuna ekleme yapıldı. Fiş oluşturulup Masa değerleri sıfırlanacak.
             //

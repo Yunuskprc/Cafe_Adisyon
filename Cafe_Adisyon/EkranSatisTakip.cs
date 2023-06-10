@@ -19,7 +19,7 @@ namespace Cafe_Adisyon
             InitializeComponent();
         }
 
-        SqlConnection conn = new SqlConnection("Server=localhost\\SQLEXPRESS;Database=deneme;Trusted_Connection=True;");
+        SqlConnection conn = new SqlConnection("Server=localhost\\SQLEXPRESS;Database=Cafe_Adisyon;Trusted_Connection=True;");
         private void EkranUrunTakip_Load(object sender, EventArgs e)
         {
             timer1.Start();
@@ -218,18 +218,15 @@ namespace Cafe_Adisyon
         /// <param name="e"></param>
         private void btnAylikSatis_Click(object sender, EventArgs e)
         {
-            // ay değişkeninde DATETIME.NOW.MOUNTH olacak.
-            int ay = 2;
             int fiyat = 0;
             int adet = 0;
 
-            //MessageBox.Show(dr["tarih"].ToString().Substring(5, 1) + "  " + dr["tarih"].ToString().Substring(6, 1));
             conn.Open();
             SqlCommand cmd = new SqlCommand("SELECT *FROM GunlukSatisTakip", conn);
             SqlDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
             {
-                if (dr["ay"].ToString() == ay.ToString())
+                if (dr["ay"].ToString() == anlikAy.ToString())
                 {
 
                     fiyat += Int16.Parse(dr["fiyat"].ToString());
@@ -253,7 +250,6 @@ namespace Cafe_Adisyon
         {
             //ay 
             int gun = DateTime.Now.Day;
-            int ay = 3;
             int yil = DateTime.Now.Year;
 
             conn.Open();
@@ -261,7 +257,7 @@ namespace Cafe_Adisyon
             SqlDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
             {
-                if (dr["yil"].ToString() == yil.ToString() && dr["ay"].ToString() == ay.ToString() && dr["gun"].ToString() == gun.ToString())
+                if (dr["yil"].ToString() == yil.ToString() && dr["ay"].ToString() == anlikAy.ToString() && dr["gun"].ToString() == gun.ToString())
                 {
                     lblSatilanUrunAdet.Text = dr["SatisSayisi"].ToString();
                     lblToplamCiro.Text = dr["fiyat"].ToString() + "TL";
@@ -623,7 +619,7 @@ namespace Cafe_Adisyon
             lbl1.Text = "Tarih";
 
             conn.Open();
-            SqlCommand cmd = new SqlCommand("SELECT *FROM GunlukSatisTakip", conn);
+            SqlCommand cmd = new SqlCommand("SELECT *FROM AdisyonTakip", conn);
             SqlDataReader dr = cmd.ExecuteReader();
             Color color1 = new Color();
             int sayac = 0;
@@ -658,7 +654,7 @@ namespace Cafe_Adisyon
                 Label lblAdisyonNo = new Label();
                 lblAdisyonNo.Size = new System.Drawing.Size(80, 20);
                 lblAdisyonNo.BackColor = System.Drawing.Color.Transparent;
-                lblAdisyonNo.Text = dr["satisSayisi"].ToString();
+                lblAdisyonNo.Text = dr["adisyonNo"].ToString();
                 lblAdisyonNo.Font = new Font("Segoe UI Semibold", 9, FontStyle.Bold);
                 lblAdisyonNo.ForeColor = System.Drawing.Color.FromArgb(118, 128, 143);
                 pnl.Controls.Add(lblAdisyonNo);
