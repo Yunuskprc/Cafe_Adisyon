@@ -234,8 +234,6 @@ namespace Cafe_Adisyon
             string fiyat = listFiyat[Int16.Parse(btn.Name) - 1].Text;
             string aciklama = listAciklama[Int16.Parse(btn.Name) - 1].Text;
 
-            MessageBox.Show("update " + cmbBxKategori.Text + " set isim='" + isim + "',fiyat=" + Int16.Parse(fiyat) + ",aciklama='" + aciklama + "' where urunId=" + btn.Name);
-
 
             for (int i = 0; i < fiyat.Length; i++)
             {
@@ -376,7 +374,6 @@ namespace Cafe_Adisyon
                 else
                 {
                     kontrol = false;
-                    MessageBox.Show(txtYeniFiyat.Text);
                     break;
                 }
 

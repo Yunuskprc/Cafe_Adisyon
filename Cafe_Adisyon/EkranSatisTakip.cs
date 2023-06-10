@@ -699,6 +699,7 @@ namespace Cafe_Adisyon
                 cmd.ExecuteNonQuery();
                 conn.Close();
             }
+            EkranUrunTakip_Load(sender, e);
         }
 
         
