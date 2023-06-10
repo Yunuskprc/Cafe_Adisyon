@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EkranSatisTakip));
             panel1 = new Panel();
             lblDate = new Label();
             lblYEDAdisyonSistemi = new Label();
@@ -41,18 +40,9 @@
             btnMenu = new Button();
             btnMasa = new Button();
             timer1 = new System.Windows.Forms.Timer(components);
-            pnlGenelBilgiler = new Panel();
-            btnGunlukSatis = new Button();
-            btnAylikSatis = new Button();
-            btnTumZamanlarSatis = new Button();
-            lblSatilanUrunAdet = new Label();
-            label4 = new Label();
-            lblToplamCiro = new Label();
-            label1 = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pctbxYEDLogo).BeginInit();
             panel2.SuspendLayout();
-            pnlGenelBilgiler.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -176,115 +166,11 @@
             timer1.Interval = 1000;
             timer1.Tick += timer1_Tick;
             // 
-            // pnlGenelBilgiler
-            // 
-            pnlGenelBilgiler.BackColor = Color.FromArgb(26, 24, 51);
-            pnlGenelBilgiler.BackgroundImage = (Image)resources.GetObject("pnlGenelBilgiler.BackgroundImage");
-            pnlGenelBilgiler.Controls.Add(btnGunlukSatis);
-            pnlGenelBilgiler.Controls.Add(btnAylikSatis);
-            pnlGenelBilgiler.Controls.Add(btnTumZamanlarSatis);
-            pnlGenelBilgiler.Controls.Add(lblSatilanUrunAdet);
-            pnlGenelBilgiler.Controls.Add(label4);
-            pnlGenelBilgiler.Controls.Add(lblToplamCiro);
-            pnlGenelBilgiler.Controls.Add(label1);
-            pnlGenelBilgiler.Font = new Font("Segoe UI", 26.25F, FontStyle.Regular, GraphicsUnit.Point);
-            pnlGenelBilgiler.Location = new Point(190, 115);
-            pnlGenelBilgiler.Name = "pnlGenelBilgiler";
-            pnlGenelBilgiler.Size = new Size(520, 330);
-            pnlGenelBilgiler.TabIndex = 10;
-            // 
-            // btnGunlukSatis
-            // 
-            btnGunlukSatis.FlatAppearance.BorderColor = Color.White;
-            btnGunlukSatis.FlatStyle = FlatStyle.Flat;
-            btnGunlukSatis.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
-            btnGunlukSatis.ForeColor = SystemColors.ButtonFace;
-            btnGunlukSatis.Location = new Point(370, 230);
-            btnGunlukSatis.Name = "btnGunlukSatis";
-            btnGunlukSatis.Size = new Size(120, 31);
-            btnGunlukSatis.TabIndex = 6;
-            btnGunlukSatis.Text = "Günlük Satış";
-            btnGunlukSatis.UseVisualStyleBackColor = true;
-            btnGunlukSatis.Click += btnGunlukSatis_Click;
-            // 
-            // btnAylikSatis
-            // 
-            btnAylikSatis.FlatAppearance.BorderColor = Color.White;
-            btnAylikSatis.FlatStyle = FlatStyle.Flat;
-            btnAylikSatis.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
-            btnAylikSatis.ForeColor = SystemColors.ButtonFace;
-            btnAylikSatis.Location = new Point(370, 150);
-            btnAylikSatis.Name = "btnAylikSatis";
-            btnAylikSatis.Size = new Size(120, 31);
-            btnAylikSatis.TabIndex = 5;
-            btnAylikSatis.Text = "Aylık Satış";
-            btnAylikSatis.UseVisualStyleBackColor = true;
-            btnAylikSatis.Click += btnAylikSatis_Click;
-            // 
-            // btnTumZamanlarSatis
-            // 
-            btnTumZamanlarSatis.FlatAppearance.BorderColor = Color.White;
-            btnTumZamanlarSatis.FlatStyle = FlatStyle.Flat;
-            btnTumZamanlarSatis.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
-            btnTumZamanlarSatis.ForeColor = SystemColors.ButtonFace;
-            btnTumZamanlarSatis.Location = new Point(370, 70);
-            btnTumZamanlarSatis.Name = "btnTumZamanlarSatis";
-            btnTumZamanlarSatis.Size = new Size(120, 31);
-            btnTumZamanlarSatis.TabIndex = 4;
-            btnTumZamanlarSatis.Text = "Tüm Zamanlar";
-            btnTumZamanlarSatis.UseVisualStyleBackColor = true;
-            btnTumZamanlarSatis.Click += btnTumZamanlarSatis_Click;
-            // 
-            // lblSatilanUrunAdet
-            // 
-            lblSatilanUrunAdet.AutoSize = true;
-            lblSatilanUrunAdet.Font = new Font("Segoe UI Symbol", 36F, FontStyle.Bold, GraphicsUnit.Point);
-            lblSatilanUrunAdet.ForeColor = SystemColors.ButtonFace;
-            lblSatilanUrunAdet.Location = new Point(43, 216);
-            lblSatilanUrunAdet.Name = "lblSatilanUrunAdet";
-            lblSatilanUrunAdet.Size = new Size(109, 65);
-            lblSatilanUrunAdet.TabIndex = 3;
-            lblSatilanUrunAdet.Text = "412";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
-            label4.ForeColor = SystemColors.ButtonFace;
-            label4.Location = new Point(43, 177);
-            label4.Name = "label4";
-            label4.Size = new Size(138, 20);
-            label4.TabIndex = 2;
-            label4.Text = "Satılan Ürün Adedi";
-            // 
-            // lblToplamCiro
-            // 
-            lblToplamCiro.AutoSize = true;
-            lblToplamCiro.Font = new Font("Segoe UI Symbol", 36F, FontStyle.Bold, GraphicsUnit.Point);
-            lblToplamCiro.ForeColor = SystemColors.ButtonFace;
-            lblToplamCiro.Location = new Point(43, 57);
-            lblToplamCiro.Name = "lblToplamCiro";
-            lblToplamCiro.Size = new Size(178, 65);
-            lblToplamCiro.TabIndex = 1;
-            lblToplamCiro.Text = "5,97 M";
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.ForeColor = SystemColors.ButtonFace;
-            label1.Location = new Point(43, 22);
-            label1.Name = "label1";
-            label1.Size = new Size(91, 20);
-            label1.TabIndex = 0;
-            label1.Text = "Toplam Ciro";
-            // 
             // EkranSatisTakip
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1904, 1041);
-            Controls.Add(pnlGenelBilgiler);
             Controls.Add(panel2);
             Controls.Add(panel1);
             Name = "EkranSatisTakip";
@@ -294,8 +180,6 @@
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pctbxYEDLogo).EndInit();
             panel2.ResumeLayout(false);
-            pnlGenelBilgiler.ResumeLayout(false);
-            pnlGenelBilgiler.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -312,13 +196,5 @@
         private Button btnMenu;
         private Button btnMasa;
         private System.Windows.Forms.Timer timer1;
-        private Panel pnlGenelBilgiler;
-        private Label lblSatilanUrunAdet;
-        private Label label4;
-        private Label lblToplamCiro;
-        private Label label1;
-        private Button btnGunlukSatis;
-        private Button btnAylikSatis;
-        private Button btnTumZamanlarSatis;
     }
 }
